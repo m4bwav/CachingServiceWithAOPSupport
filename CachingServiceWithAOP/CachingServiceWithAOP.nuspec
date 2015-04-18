@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>CachingServiceWithAOPSupport</id>
+    <version>1.0.1</version>
+    <title>Caching Service With Autofac AOP Support</title>
+    <authors>Mark Rogers</authors>
+    <owners>Mark Rogers</owners>
+    <licenseUrl>https://github.com/m4bwav/CachingServiceWithAOPSupport/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/m4bwav/CachingServiceWithAOPSupport</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Provides an all-prupose caching service with Autofac AOP configuration extensions.</description>
+    <releaseNotes>First Release.</releaseNotes>
+    <copyright>Copyright 2015</copyright>
+    <tags>Cache Autofac DynamicProxy2 AOP Castle DynamicProxy</tags>
+  </metadata>
+</package>
