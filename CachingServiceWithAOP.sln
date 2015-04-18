@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CachingServiceWithAOP", "CachingServiceWithAOP\CachingServiceWithAOP.csproj", "{0D5EDCDE-36F8-4960-BBE5-9FE24C2A4970}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CachingServiceWithAOP.Tests", "CachingServiceWithAOP.Tests\CachingServiceWithAOP.Tests.csproj", "{830DA95C-9E64-4331-8B88-924E75008B04}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D5EDCDE-36F8-4960-BBE5-9FE24C2A4970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D5EDCDE-36F8-4960-BBE5-9FE24C2A4970}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D5EDCDE-36F8-4960-BBE5-9FE24C2A4970}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D5EDCDE-36F8-4960-BBE5-9FE24C2A4970}.Release|Any CPU.Build.0 = Release|Any CPU
+		{830DA95C-9E64-4331-8B88-924E75008B04}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{830DA95C-9E64-4331-8B88-924E75008B04}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{830DA95C-9E64-4331-8B88-924E75008B04}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{830DA95C-9E64-4331-8B88-924E75008B04}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
