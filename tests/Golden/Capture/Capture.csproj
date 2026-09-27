@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Golden capture of the PUBLISHED CachingServiceWithAOPSupport 1.0.1 (package-modernize, Phase 0), from the skill's
+    scripts/golden-capture-nuget.template.cs. 1.0.1 ships only lib/net45; a net10.0 app also restores it (NU1701, the
+    .NET Framework fallback), so the capture runs on both runtimes a caller can have: net48 and net10.0.
+    Run: dotnet run, configuration Release, framework net48 or net10.0, with the output path as the program's one
+    argument (see Program.cs), for example ../1.0.1.net48-windows.json.
+    The Directory.Build.* and Directory.Packages.props files beside this one are empty on purpose: they stop MSBuild
+    from importing the repository's own props, so later changes to the repository cannot change this recording.
+  -->
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks>net10.0;net48</TargetFrameworks>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <!-- 1.0.1 is a net45 package; a net10.0 app restores it through the .NET Framework fallback on purpose. -->
+    <NoWarn>$(NoWarn);NU1701;NU1903;NU1902</NoWarn>
+    <RestorePackagesWithLockFile>false</RestorePackagesWithLockFile>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+    <RootNamespace>GoldenCapture</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Resolves Autofac.Extras.DynamicProxy2 3.0.5, Autofac 3.3.1, Castle.Core 3.2.2, as any consumer of 1.0.1 gets. -->
+    <PackageReference Include="CachingServiceWithAOPSupport" Version="[1.0.1]" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web.Extensions" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
+    <PackageReference Include="System.Runtime.Caching" Version="10.0.12" />
+  </ItemGroup>
+
+</Project>

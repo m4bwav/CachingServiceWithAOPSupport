@@ -1,0 +1,1109 @@
+{
+  "package": "CachingServiceWithAOPSupport@1.0.1",
+  "assembly": "CachingServiceWithAOP 1.0.0.0",
+  "assemblySha256": "2f956a8bc3d97a8aae8a4ab1a5794da528655c7401068a313b0d8022cec53f3d",
+  "loadedAssemblies": {
+    "Autofac": "3.3.0.0",
+    "Autofac.Extras.DynamicProxy2": "3.0.0.0",
+    "Castle.Core": "3.2.0.0",
+    "System.Runtime.Caching": "4.0.0.0",
+    "System.Web.Extensions": "4.0.0.0"
+  },
+  "runtime": ".NET Framework 4.8.9345.0",
+  "os": "windows",
+  "culture": "invariant",
+  "captured": "2026-09-27",
+  "note": "Golden outputs of the published CachingServiceWithAOPSupport 1.0.1 (lib/net45), recorded by tests/Golden/Capture. Never edit; never regenerate from new code.",
+  "caseCount": 158,
+  "cases": [
+    {
+      "group": "CacheAttribute",
+      "name": "ctor()",
+      "result": null
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(long 0)",
+      "result": 0
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(long 1)",
+      "result": 1
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(long -1)",
+      "result": -1
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(long 10000000)",
+      "result": 10000000
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(long 9223372036854775807)",
+      "result": 9223372036854775807
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(long -9223372036854775808)",
+      "result": -9223372036854775808
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(0,0,0)",
+      "result": 0
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(1,2,3)",
+      "result": 37230000000
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(-1,0,0)",
+      "result": -36000000000
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(0,0,-5)",
+      "result": -50000000
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(24,0,0)",
+      "result": 864000000000
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(0,90,90)",
+      "result": 54900000000
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(2147483647,0,0)",
+      "result": {
+        "$throws": "System.ArgumentOutOfRangeException: TimeSpan overflowed because the duration is too long."
+      }
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(1,0,0,0)",
+      "result": 864000000000
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(0,25,61,61)",
+      "result": 937210000000
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(-1,0,0,0)",
+      "result": -864000000000
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "ctor(2147483647,0,0,0)",
+      "result": {
+        "$throws": "System.ArgumentOutOfRangeException: TimeSpan overflowed because the duration is too long."
+      }
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "CacheTimeout set then null",
+      "result": [
+        5,
+        20000000,
+        null
+      ]
+    },
+    {
+      "group": "CacheAttribute",
+      "name": "type shape",
+      "result": {
+        "baseType": "System.Attribute",
+        "sealed": false,
+        "validOn": "All",
+        "allowMultiple": false,
+        "inherited": true
+      }
+    },
+    {
+      "group": "HasCacheAttribute(MethodInfo)",
+      "name": "Svc.Cached",
+      "result": true
+    },
+    {
+      "group": "HasCacheAttribute(MethodInfo)",
+      "name": "Svc.NotCached",
+      "result": false
+    },
+    {
+      "group": "HasCacheAttribute(MethodInfo)",
+      "name": "ISvc.Cached (attribute on the class only)",
+      "result": false
+    },
+    {
+      "group": "HasCacheAttribute(MethodInfo)",
+      "name": "ISvc.AttrOnInterfaceOnly",
+      "result": true
+    },
+    {
+      "group": "HasCacheAttribute(MethodInfo)",
+      "name": "Svc.AttrOnInterfaceOnly",
+      "result": false
+    },
+    {
+      "group": "HasCacheAttribute(MethodInfo)",
+      "name": "DerivedSvc.V (override of a cached virtual)",
+      "result": true
+    },
+    {
+      "group": "HasCacheAttribute(MethodInfo)",
+      "name": "Svc.Echo generic definition",
+      "result": true
+    },
+    {
+      "group": "HasCacheAttribute(MethodInfo)",
+      "name": "Svc.Echo<int>",
+      "result": true
+    },
+    {
+      "group": "HasCacheAttribute(MethodInfo)",
+      "name": "null",
+      "result": {
+        "$throws": "System.ArgumentNullException: Value cannot be null."
+      }
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Get<string> missing",
+      "result": null
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Get<int> missing",
+      "result": 0
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Get<int?> missing",
+      "result": null
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Get<string> null key",
+      "result": {
+        "$throws": "System.ArgumentNullException: Value cannot be null."
+      }
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Get<string> empty key",
+      "result": null
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Set and Get string",
+      "result": "v"
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Set empty key",
+      "result": "v"
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Set int, Get as int, long, int?, object, string",
+      "result": [
+        42,
+        0,
+        42,
+        42,
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Set int 0 then Get<int> and Get<int?>",
+      "result": [
+        0,
+        0
+      ]
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Set Dog, Get as Animal, Dog, object, string",
+      "result": [
+        "Dog:rex",
+        "Dog:rex",
+        "Dog:rex",
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Set same instance returns same reference",
+      "result": true
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Set null value",
+      "result": {
+        "$throws": "System.ArgumentNullException: Value cannot be null."
+      }
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Set null key",
+      "result": {
+        "$throws": "System.ArgumentNullException: Value cannot be null."
+      }
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Set twice overwrites",
+      "result": "w"
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "two services share MemoryCache.Default",
+      "result": [
+        "from-a",
+        "from-a"
+      ]
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Get(key, func) runs func once",
+      "result": [
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Get(key, func) returning null",
+      "result": [
+        {
+          "$throws": "System.ArgumentNullException: Value cannot be null."
+        },
+        {
+          "$throws": "System.ArgumentNullException: Value cannot be null."
+        },
+        2
+      ]
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Get(key, func) returning 0 is cached",
+      "result": [
+        0,
+        0,
+        1
+      ]
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Get(key, func) that throws",
+      "result": [
+        {
+          "$throws": "System.InvalidOperationException: fixture failure"
+        },
+        {
+          "$throws": "System.InvalidOperationException: fixture failure"
+        },
+        2
+      ]
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Get(key, null func)",
+      "result": {
+        "$throws": "System.NullReferenceException: Object reference not set to an instance of an object."
+      }
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Get(null key, func)",
+      "result": {
+        "$throws": "System.ArgumentNullException: Value cannot be null."
+      }
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Get(key, func) with a value of another type present",
+      "result": [
+        0,
+        0,
+        "text"
+      ]
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "Get(key, func) nested for the same key on one thread",
+      "result": [
+        101,
+        101,
+        1
+      ]
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "GetByInvocation(null)",
+      "result": {
+        "$throws": "System.NullReferenceException: Object reference not set to an instance of an object."
+      }
+    },
+    {
+      "group": "MemoryCacheService",
+      "name": "ctor(ObjectCache null) then Get",
+      "result": {
+        "$throws": "System.NullReferenceException: Object reference not set to an instance of an object."
+      }
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor() immediate",
+      "result": [
+        "set",
+        "v"
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(ObjectCache Default) immediate",
+      "result": [
+        "set",
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(ObjectCache new MemoryCache) immediate",
+      "result": [
+        "set",
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(long 1) after 50 ms",
+      "result": [
+        "set",
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(long 0) immediate",
+      "result": [
+        "set",
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(long -1) immediate",
+      "result": [
+        "set",
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(long one day) immediate",
+      "result": [
+        "set",
+        "v"
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(long MaxValue)",
+      "result": [
+        {
+          "$throws": "System.ArgumentOutOfRangeException: The added or subtracted value results in an un-representable DateTime."
+        },
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(long MinValue)",
+      "result": [
+        {
+          "$throws": "System.ArgumentOutOfRangeException: The added or subtracted value results in an un-representable DateTime."
+        },
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(0,0,1) immediate",
+      "result": [
+        "set",
+        "v"
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(0,0,0) immediate",
+      "result": [
+        "set",
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(-1,0,0) immediate",
+      "result": [
+        "set",
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(int.MaxValue,0,0)",
+      "result": {
+        "$throws": "System.ArgumentOutOfRangeException: TimeSpan overflowed because the duration is too long."
+      }
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(TimeSpan 100 ms) immediate, then after 600 ms",
+      "result": [
+        "v",
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(TimeSpan Zero) immediate",
+      "result": [
+        "set",
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(TimeSpan -5 min) immediate",
+      "result": [
+        "set",
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(TimeSpan MaxValue)",
+      "result": [
+        {
+          "$throws": "System.ArgumentOutOfRangeException: The added or subtracted value results in an un-representable DateTime."
+        },
+        null
+      ]
+    },
+    {
+      "group": "MemoryCacheService lifetime",
+      "name": "ctor(TimeSpan 400 days) immediate",
+      "result": [
+        "set",
+        "v"
+      ]
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "None()",
+      "result": "GoldenCapture.Fixtures.Keyed;None;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "OneInt(1)",
+      "result": "GoldenCapture.Fixtures.Keyed;OneInt;Argument Types:System.Int32,;values:1|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "OneInt(-1)",
+      "result": "GoldenCapture.Fixtures.Keyed;OneInt;Argument Types:System.Int32,;values:-1|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "OneInt(int.MinValue)",
+      "result": "GoldenCapture.Fixtures.Keyed;OneInt;Argument Types:System.Int32,;values:-2147483648|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Str(\"a\")",
+      "result": "GoldenCapture.Fixtures.Keyed;Str;Argument Types:System.String,;values:\"a\"|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Str(null)",
+      "result": "GoldenCapture.Fixtures.Keyed;Str;Argument Types:System.String,;values:null|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Str(\"\")",
+      "result": "GoldenCapture.Fixtures.Keyed;Str;Argument Types:System.String,;values:\"\"|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Str(special characters)",
+      "result": "GoldenCapture.Fixtures.Keyed;Str;Argument Types:System.String,;values:\"héllo 😀 \\u003ctag\\u003e \\u0026 \\u0027q\\u0027 \\\"dq\\\" back\\\\slash|semi;colon\\nline\"|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Str(\"a|b\") versus Two",
+      "result": "GoldenCapture.Fixtures.Keyed;Str;Argument Types:System.String,;values:\"a|b\"|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Two(1, \"x\")",
+      "result": "GoldenCapture.Fixtures.Keyed;Two;Argument Types:System.Int32,System.String,;values:1|\"x\"|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Obj(null)",
+      "result": "GoldenCapture.Fixtures.Keyed;Obj;Argument Types:System.Object,;values:null|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Obj(1)",
+      "result": "GoldenCapture.Fixtures.Keyed;Obj;Argument Types:System.Object,;values:1|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Obj(\"1\")",
+      "result": "GoldenCapture.Fixtures.Keyed;Obj;Argument Types:System.Object,;values:\"1\"|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Obj(new object())",
+      "result": "GoldenCapture.Fixtures.Keyed;Obj;Argument Types:System.Object,;values:{}|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Generic<int>(1)",
+      "result": "GoldenCapture.Fixtures.Keyed;Generic;Generic Arguments:System.Int32,;Argument Types:System.Int32,;values:1|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Generic<string>(\"1\")",
+      "result": "GoldenCapture.Fixtures.Keyed;Generic;Generic Arguments:System.String,;Argument Types:System.String,;values:\"1\"|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Generic<object>(1)",
+      "result": "GoldenCapture.Fixtures.Keyed;Generic;Generic Arguments:System.Object,;Argument Types:System.Object,;values:1|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Generic2<int, List<string>>",
+      "result": "GoldenCapture.Fixtures.Keyed;Generic2;Generic Arguments:System.Int32,System.Collections.Generic.List`1[System.String],;Argument Types:System.Int32,System.Collections.Generic.List`1[System.String],;values:1|[\"a\"]|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Arr(1,2,3)",
+      "result": "GoldenCapture.Fixtures.Keyed;Arr;Argument Types:System.Int32[],;values:[1,2,3]|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Arr(empty)",
+      "result": "GoldenCapture.Fixtures.Keyed;Arr;Argument Types:System.Int32[],;values:[]|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Arr(null)",
+      "result": "GoldenCapture.Fixtures.Keyed;Arr;Argument Types:System.Int32[],;values:null|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "ListOf(a, null)",
+      "result": "GoldenCapture.Fixtures.Keyed;ListOf;Argument Types:System.Collections.Generic.List`1[System.String],;values:[\"a\",null]|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Dict(b=2, a=1)",
+      "result": "GoldenCapture.Fixtures.Keyed;Dict;Argument Types:System.Collections.Generic.Dictionary`2[System.String,System.Int32],;values:{\"b\":2,\"a\":1}|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "WithDto",
+      "result": "GoldenCapture.Fixtures.Keyed;WithDto;Argument Types:GoldenCapture.Fixtures.Dto,;values:{\"Field\":6,\"A\":1,\"B\":\"b\",\"ReadOnly\":3}|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "WithNode(chain)",
+      "result": "GoldenCapture.Fixtures.Keyed;WithNode;Argument Types:GoldenCapture.Fixtures.Node,;values:{\"V\":1,\"Next\":{\"V\":2,\"Next\":null}}|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "WithNode(cycle)",
+      "result": {
+        "$throws": "System.InvalidOperationException: A circular reference was detected while serializing an object of type 'GoldenCapture.Fixtures.Node'."
+      }
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "WithAnimal(Dog)",
+      "result": "GoldenCapture.Fixtures.Keyed;WithAnimal;Argument Types:GoldenCapture.Fixtures.Animal,;values:{\"Legs\":4,\"Name\":\"rex\"}|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Date(2015-04-18 UTC)",
+      "result": "GoldenCapture.Fixtures.Keyed;Date;Argument Types:System.DateTime,;values:\"\\/Date(1429360245123)\\/\"|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Date(MinValue UTC)",
+      "result": "GoldenCapture.Fixtures.Keyed;Date;Argument Types:System.DateTime,;values:\"\\/Date(-62135596800000)\\/\"|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "WithGuid",
+      "result": "GoldenCapture.Fixtures.Keyed;WithGuid;Argument Types:System.Guid,;values:\"0f8fad5b-d9cb-469f-a165-70867728950e\"|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "WithEnum(Blue)",
+      "result": "GoldenCapture.Fixtures.Keyed;WithEnum;Argument Types:GoldenCapture.Fixtures.Colour,;values:2|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "WithEnum(undefined 7)",
+      "result": "GoldenCapture.Fixtures.Keyed;WithEnum;Argument Types:GoldenCapture.Fixtures.Colour,;values:7|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "WithDayOfWeek(Friday)",
+      "result": "GoldenCapture.Fixtures.Keyed;WithDayOfWeek;Argument Types:System.DayOfWeek,;values:5|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Dbl(0.1)",
+      "result": "GoldenCapture.Fixtures.Keyed;Dbl;Argument Types:System.Double,;values:0.1|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Dbl(1e300)",
+      "result": "GoldenCapture.Fixtures.Keyed;Dbl;Argument Types:System.Double,;values:1E+300|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Dbl(-0.0)",
+      "result": "GoldenCapture.Fixtures.Keyed;Dbl;Argument Types:System.Double,;values:0|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Dbl(NaN)",
+      "result": "GoldenCapture.Fixtures.Keyed;Dbl;Argument Types:System.Double,;values:NaN|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Dbl(PositiveInfinity)",
+      "result": "GoldenCapture.Fixtures.Keyed;Dbl;Argument Types:System.Double,;values:Infinity|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Dbl(0.5) under de-DE",
+      "result": "GoldenCapture.Fixtures.Keyed;Dbl;Argument Types:System.Double,;values:0.5|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Dec(1.10)",
+      "result": "GoldenCapture.Fixtures.Keyed;Dec;Argument Types:System.Decimal,;values:1.10|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Chr('x')",
+      "result": "GoldenCapture.Fixtures.Keyed;Chr;Argument Types:System.Char,;values:\"x\"|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Chr(NUL)",
+      "result": "GoldenCapture.Fixtures.Keyed;Chr;Argument Types:System.Char,;values:null|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "NullableInt(null)",
+      "result": "GoldenCapture.Fixtures.Keyed;NullableInt;Argument Types:System.Nullable`1[System.Int32],;values:null|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "NullableInt(3)",
+      "result": "GoldenCapture.Fixtures.Keyed;NullableInt;Argument Types:System.Nullable`1[System.Int32],;values:3|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Overload(int 1)",
+      "result": "GoldenCapture.Fixtures.Keyed;Overload;Argument Types:System.Int32,;values:1|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "Overload(long 1)",
+      "result": "GoldenCapture.Fixtures.Keyed;Overload;Argument Types:System.Int64,;values:1|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "WithTimeSpan(90 s)",
+      "result": "GoldenCapture.Fixtures.Keyed;WithTimeSpan;Argument Types:System.TimeSpan,;values:{\"Ticks\":900000000,\"Days\":0,\"Hours\":0,\"Milliseconds\":0,\"Minutes\":1,\"Seconds\":30,\"TotalDays\":0.0010416666666666667,\"TotalHours\":0.024999999999999998,\"TotalMilliseconds\":90000,\"TotalMinutes\":1.5,\"TotalSeconds\":90}|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "WithBool(true)",
+      "result": "GoldenCapture.Fixtures.Keyed;WithBool;Argument Types:System.Boolean,;values:true|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "WithParams(1,2)",
+      "result": "GoldenCapture.Fixtures.Keyed;WithParams;Argument Types:System.Int32[],;values:[1,2]|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "WithOut",
+      "result": "GoldenCapture.Fixtures.Keyed;WithOut;Argument Types:System.Int32&,;values:0|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "WithRef(4)",
+      "result": "GoldenCapture.Fixtures.Keyed;WithRef;Argument Types:System.Int32&,;values:4|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "target with ToString override",
+      "result": "custom-target;OneInt;Argument Types:System.Int32,;values:1|;"
+    },
+    {
+      "group": "DefaultCacheKeyService",
+      "name": "GenerateUniqueKeyForCall(null)",
+      "result": {
+        "$throws": "System.NullReferenceException: Object reference not set to an instance of an object."
+      }
+    },
+    {
+      "group": "Interception",
+      "name": "Cached twice",
+      "result": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "NotCached twice",
+      "result": [
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "CachedOneTick twice, 50 ms apart",
+      "result": [
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "CachedOneDay twice, 50 ms apart",
+      "result": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "CachedOneSecond twice",
+      "result": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "CachedZeroTicks twice",
+      "result": [
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "CachedNegativeTicks twice",
+      "result": [
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "WithArg 1, 1, 2",
+      "result": [
+        1001,
+        1001,
+        2002,
+        2
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "WithTwo (\"a|\", 1) and (\"a\", 1)",
+      "result": [
+        1001,
+        2001,
+        3001,
+        3
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "ReturnsNull twice",
+      "result": [
+        {
+          "$throws": "System.ArgumentNullException: Value cannot be null."
+        },
+        {
+          "$throws": "System.ArgumentNullException: Value cannot be null."
+        },
+        2
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "VoidCached twice",
+      "result": [
+        {
+          "$throws": "System.ArgumentNullException: Value cannot be null."
+        },
+        {
+          "$throws": "System.ArgumentNullException: Value cannot be null."
+        },
+        2
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "Throws twice",
+      "result": [
+        {
+          "$throws": "System.InvalidOperationException: fixture failure"
+        },
+        {
+          "$throws": "System.InvalidOperationException: fixture failure"
+        },
+        2
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "Echo<int> 5, Echo<string> \"5\", Echo<long> 5, Echo<int> 5",
+      "result": [
+        5,
+        "5",
+        5,
+        5,
+        3
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "Echo<string> null",
+      "result": [
+        {
+          "$throws": "System.ArgumentNullException: Value cannot be null."
+        },
+        {
+          "$throws": "System.ArgumentNullException: Value cannot be null."
+        },
+        2
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "CachedTask twice",
+      "result": [
+        1,
+        1,
+        true,
+        1
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "AttrOnInterfaceOnly twice",
+      "result": [
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "two resolutions share entries",
+      "result": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "two containers share entries",
+      "result": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "target ToString override splits entries per instance",
+      "result": [
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "concrete Svc resolved as itself is not intercepted",
+      "result": [
+        1,
+        2,
+        2,
+        "GoldenCapture.Fixtures.Svc"
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "resolved ISvc is a proxy",
+      "result": [
+        false,
+        "Castle.Proxies"
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "interception without RegisterCachingModule",
+      "result": [
+        {
+          "$throws": "Autofac.Core.Registration.ComponentNotRegisteredException: The requested service 'CachingServiceWithAOP.AOPCachingInterceptor' has not been registered. To avoid this exception, either register a component to provide the service, check for service registration using IsRegistered(), or use the ResolveOptional() method to resolve an optional dependency."
+        },
+        0
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "durations handed to ICacheService",
+      "result": [
+        null,
+        1,
+        864000000000,
+        10000000,
+        0,
+        -1
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "Castle interface proxy with AOPCachingInterceptor, no Autofac",
+      "result": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "Castle class proxy of BaseSvc",
+      "result": [
+        1,
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "Castle class proxy of DerivedSvc (inherited attribute)",
+      "result": [
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "AOPCachingInterceptor(null) on a plain and a cached method",
+      "result": [
+        1,
+        {
+          "$throws": "System.NullReferenceException: Object reference not set to an instance of an object."
+        },
+        1,
+        0
+      ]
+    },
+    {
+      "group": "Interception",
+      "name": "cached entry visible in MemoryCache.Default",
+      "result": [
+        "GoldenCapture.Fixtures.Svc;WithArg;Argument Types:System.Int32,;values:7|; => 1007"
+      ]
+    },
+    {
+      "group": "AutofacCachingModule",
+      "name": "BuildContainer resolves",
+      "result": {
+        "ICacheService": "CachingServiceWithAOP.CachingServices.MemoryCacheService",
+        "AOPCachingInterceptor": "CachingServiceWithAOP.AOPCachingInterceptor",
+        "IKeyService registered": false,
+        "MemoryCacheService registered as itself": false,
+        "ICacheService is a new instance per resolve": true
+      }
+    },
+    {
+      "group": "AutofacCachingModule",
+      "name": "RegisterCachingModule twice",
+      "result": "CachingServiceWithAOP.CachingServices.MemoryCacheService"
+    },
+    {
+      "group": "AutofacCachingModule",
+      "name": "RegisterCachingModule(null)",
+      "result": {
+        "$throws": "System.ArgumentNullException: Value cannot be null."
+      }
+    },
+    {
+      "group": "AutofacCachingModule",
+      "name": "HasCacheAttribute(IComponentRegistration)",
+      "result": {
+        "Svc": true,
+        "NoCacheSvc": false,
+        "DerivedSvc": true
+      }
+    },
+    {
+      "group": "AutofacCachingModule",
+      "name": "HasCacheAttribute(IComponentRegistration null)",
+      "result": {
+        "$throws": "System.NullReferenceException: Object reference not set to an instance of an object."
+      }
+    }
+  ]
+}

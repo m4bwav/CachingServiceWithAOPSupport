@@ -59,3 +59,7 @@
 /packages/Castle.Core.3.2.2/lib/sl5/Castle.Core.xml
 /packages/Castle.Core.3.2.2/readme.txt
 /packages/repositories.config
+
+# Build output (the capture and API listing projects under tests/Golden too)
+[Bb]in/
+[Oo]bj/
