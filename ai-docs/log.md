@@ -62,3 +62,10 @@ Append-only. One line per operation: `## [YYYY-MM-DD] op | title` where op is on
 - Pull request #2 (version 2.0.0-beta.1, CHANGELOG section): ci run 36365216045 green, squash-merged as e29385b; ci on master run 36365400066 green; `git diff --exit-code 348da5d -- tests/Golden` empty.
 - Tag v2.0.0-beta.1 (annotated) on e29385b pushed. git printed "Cannot create ref due to creations being restricted", yet the tag was created: the admin role bypasses the tag ruleset and GitHub still prints the rule; `gh api repos/.../git/refs/tags` shows it.
 - release run 36365583388: build and test success, Windows (net48, net10.0) success, attest success, push job waiting at the `nuget` environment. **Stop for Mark's approval** (Review deployments on the run).
+
+## [2026-09-28] add | Phase 5: rehearsal verified
+- Mark approved release run 36365583388: build, Windows tests, attest, push to nuget.org, GitHub Release all success; GitHub prerelease v2.0.0-beta.1 with the nupkg and snupkg.
+- verify-published.yml with version 2.0.0-beta.1: run 36366238410 success on ubuntu-24.04, windows-latest and macos-latest (both indexes, repository signature, consumers in three dependency sets on net10.0 and net48).
+- `gh attestation verify <release asset nupkg> --repo m4bwav/CachingServiceWithAOPSupport`: exit 0 and no output in this shell; with `--format json` the statement names .github/workflows/release.yml at refs/tags/v2.0.0-beta.1.
+- Flat container: 1.0.0, 1.0.1, 2.0.0-beta.1.
+- Phase 6 started: version 2.0.0, CHANGELOG heading dated 2026-09-27 (pull request release-2.0.0).

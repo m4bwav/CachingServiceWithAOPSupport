@@ -6,7 +6,7 @@ All notable changes to this package. The format follows [Keep a Changelog](https
 
 The release rehearsal of 2.0.0: the same code and notes as the 2.0.0 section below, published as a prerelease to prove the release path (Trusted Publishing, the approval gate, verification from nuget.org).
 
-## [2.0.0] - Unreleased
+## [2.0.0] - 2026-09-27
 
 2.0.0 keeps every public type, member and parameter name of 1.0.1 and answers every call as 1.0.1 did on .NET Framework, with the exceptions listed under Fixed: `tests/Golden` holds 158 calls recorded from the published 1.0.1, and the golden test replays them against every build on .NET Framework 4.8 and .NET 10. Cache keys are 1.0.1's: byte for byte on .NET Framework, and on .NET apart from the last digit of a small share of doubles and floats (.NET formats the 17th digit exactly where the Framework rounded it); every value still has one key. The major version is for the dependencies: the API names Autofac and Castle.Core types, whose majors move.
 
