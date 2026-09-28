@@ -56,3 +56,9 @@ Append-only. One line per operation: `## [YYYY-MM-DD] op | title` where op is on
 - New tests: ReviewTests R1-R12 (R12, net48 only, compares ScriptJson with System.Web.Extensions' JavaScriptSerializer over edge cases and 3 000 seeded random strings, doubles and floats: equal), PublicApiTests.No_public_member_was_added and CacheAttribute_keeps_1_0_1_usage.
 - `dotnet test` (solution): golden 3 of 3 on net10.0 and net48; unit 48 on net10.0, 49 on net48. `dotnet format --verify-no-changes` clean. `git diff --exit-code 348da5d -- tests/Golden` empty.
 - Review summary posted on pull request #1. CI run 36364171385 on cc4cdd4: ubuntu success, windows success, ci success. **Stop for Mark's pull-request review.**
+
+## [2026-09-28] add | Phase 4 and the Phase 5 stop
+- Mark merged pull request #1 as a merge commit: 40327ba (2 parents), 2026-09-28T01:11:12Z; he reports the Trusted Publishing policy created on nuget.org. ci on master: run 36365018544 success. Alerts 0; branches: master only (v2 deleted by the setting); open pull requests 0; webhooks 0. Nothing else to clean up.
+- Pull request #2 (version 2.0.0-beta.1, CHANGELOG section): ci run 36365216045 green, squash-merged as e29385b; ci on master run 36365400066 green; `git diff --exit-code 348da5d -- tests/Golden` empty.
+- Tag v2.0.0-beta.1 (annotated) on e29385b pushed. git printed "Cannot create ref due to creations being restricted", yet the tag was created: the admin role bypasses the tag ruleset and GitHub still prints the rule; `gh api repos/.../git/refs/tags` shows it.
+- release run 36365583388: build and test success, Windows (net48, net10.0) success, attest success, push job waiting at the `nuget` environment. **Stop for Mark's approval** (Review deployments on the run).
