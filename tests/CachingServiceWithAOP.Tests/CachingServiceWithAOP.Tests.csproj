@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Unit tests: the 1.x API, the ported 2015 tests, and the 2.x fixes. The golden replay has a project of its own. -->
+
+  <PropertyGroup>
+    <TargetFrameworks>net10.0;net48</TargetFrameworks>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <!-- A locked-mode lock file must not depend on what the SDK infers per OS (the NuGet reference's trap). -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net48'">
+    <RuntimeIdentifier>win-x86</RuntimeIdentifier>
+    <SelfContained>false</SelfContained>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- A copy of tests/Golden/PublicApi-1.0.1.txt (which stays frozen with the capture). -->
+    <None Include="PublicApi-1.0.1.txt" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.10.1" />
+    <PackageReference Include="NUnit" Version="4.6.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="6.3.0" />
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <!-- The real JavaScriptSerializer, for the differential test of ScriptJson (ReviewTests.R12). -->
+    <Reference Include="System.Web.Extensions" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/CachingServiceWithAOP/CachingServiceWithAOP.csproj" />
+  </ItemGroup>
+
+</Project>

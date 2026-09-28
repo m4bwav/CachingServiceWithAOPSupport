@@ -1,0 +1,113 @@
+# Every push to master and every pull request: locked restore, dotnet format, build with warnings as errors, the NuGet
+# audit, the golden replay (its own test project and process), unit and public-API tests on Linux and Windows (net10.0
+# on both; net48 on Windows, which runs the netstandard2.0 build), a pack with a content check, fresh consumers of the
+# packed package in three dependency combinations (tests/consumers/run.sh), and the final `ci` job the ruleset on master
+# requires. Publishing is release.yml. Actions are pinned to commit SHAs; Dependabot updates them.
+name: ci
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    name: build and test (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # Source Link records the commit
+          persist-credentials: false
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          global-json-file: global.json
+          cache: true
+          cache-dependency-path: '**/packages.lock.json'
+      - run: dotnet restore --locked-mode
+      - run: dotnet format --no-restore --verify-no-changes
+      - run: dotnet build --no-restore -c Release
+      # A dedicated restore that fails on any audit finding, so a future advisory blocks a merge but not a local build.
+      - name: NuGet audit as errors
+        run: dotnet restore -p:AuditPipeline=true --force
+      - name: Test (net10.0)
+        run: dotnet test --no-build -c Release -f net10.0 --logger trx --results-directory TestResults
+      - name: Test (net48, Windows only; exercises the netstandard2.0 build)
+        if: runner.os == 'Windows'
+        run: dotnet test --no-build -c Release -f net48 --logger trx --results-directory TestResults
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: test-results-${{ matrix.os }}
+          path: TestResults
+          retention-days: 30
+      - name: Pack
+        run: dotnet pack src/CachingServiceWithAOP --no-build -c Release -o artifacts
+      - name: The package holds exactly what it should and declares its dependencies
+        if: runner.os == 'Linux'
+        run: |
+          nupkg=$(ls artifacts/CachingServiceWithAOPSupport.[0-9]*.nupkg)
+          expected=$'CachingServiceWithAOPSupport.nuspec\nREADME.md\nicon.png\nlib/net10.0/CachingServiceWithAOP.dll\nlib/net10.0/CachingServiceWithAOP.xml\nlib/netstandard2.0/CachingServiceWithAOP.dll\nlib/netstandard2.0/CachingServiceWithAOP.xml'
+          actual=$(unzip -Z1 "$nupkg" | grep -Ev '^(_rels/|package/|\[Content_Types\])' | LC_ALL=C sort)
+          if [ "$actual" != "$expected" ]; then
+            echo "::error::unexpected package contents"
+            diff <(echo "$expected") <(echo "$actual")
+            exit 1
+          fi
+          nuspec=$(unzip -p "$nupkg" CachingServiceWithAOPSupport.nuspec | tr -d '\r\n')
+          for tfm in .NETStandard2.0 net10.0; do
+            group=$(echo "$nuspec" | grep -o "<group targetFramework=\"$tfm\">.*" | sed 's:</group>.*::')
+            deps=$(echo "$group" | grep -o '<dependency id="[^"]*" version="[^"]*"' | LC_ALL=C sort | tr '\n' ' ')
+            want='<dependency id="Autofac" version="6.5.0" <dependency id="Autofac.Extras.DynamicProxy" version="7.1.0" <dependency id="Castle.Core" version="5.1.1" <dependency id="System.Runtime.Caching" version="10.0.12" '
+            if [ "$deps" != "$want" ]; then
+              echo "::error::$tfm dependencies: $deps"
+              exit 1
+            fi
+          done
+      # Fresh consumers of the packed package: the declared floors, the latest Autofac and DynamicProxy, and Autofac 9
+      # with the DynamicProxy floor (plan D5); net10.0 everywhere, net48 on Windows.
+      - name: Fresh consumers of the packed package
+        run: |
+          version=$(sed -n 's:.*<Version>\(.*\)</Version>.*:\1:p' src/CachingServiceWithAOP/CachingServiceWithAOP.csproj)
+          tests/consumers/run.sh "$version" artifacts
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: runner.os == 'Linux'
+        with:
+          name: packages
+          path: artifacts/*nupkg
+          retention-days: 30
+
+  ci:
+    name: ci
+    if: ${{ always() }}
+    needs: [build]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Every job passed
+        env:
+          RESULTS: ${{ join(needs.*.result, ' ') }}
+        run: |
+          echo "job results: $RESULTS"
+          for result in $RESULTS; do
+            if [ "$result" != success ]; then
+              exit 1
+            fi
+          done

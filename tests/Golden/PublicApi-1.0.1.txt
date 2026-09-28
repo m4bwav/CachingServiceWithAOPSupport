@@ -1,0 +1,49 @@
+# Public API of the published CachingServiceWithAOPSupport 1.0.1 (lib/net45/CachingServiceWithAOP.dll from nuget.org),
+# listed by reflection on 2026-09-27 with tests/Golden/ApiList (net48). The v2 tests check every line still exists,
+# apart from the exceptions named in the plan (the Castle and Autofac types in signatures move to their current majors).
+CachingServiceWithAOP.AOPCachingInterceptor constructor .ctor(CachingServiceWithAOP.CachingServices.ICacheService cacheService)
+CachingServiceWithAOP.AOPCachingInterceptor implements Castle.DynamicProxy.IInterceptor
+CachingServiceWithAOP.AOPCachingInterceptor method System.Void Intercept(Castle.DynamicProxy.IInvocation invocation)
+CachingServiceWithAOP.AOPCachingInterceptor type class
+CachingServiceWithAOP.AutofacCachingModule base Autofac.Module
+CachingServiceWithAOP.AutofacCachingModule constructor .ctor()
+CachingServiceWithAOP.AutofacCachingModule implements Autofac.Core.IModule
+CachingServiceWithAOP.AutofacCachingModule method protected System.Void Load(Autofac.ContainerBuilder builder)
+CachingServiceWithAOP.AutofacCachingModule method static Autofac.IContainer BuildContainer()
+CachingServiceWithAOP.AutofacCachingModule type class
+CachingServiceWithAOP.CacheAttribute base System.Attribute
+CachingServiceWithAOP.CacheAttribute constructor .ctor()
+CachingServiceWithAOP.CacheAttribute constructor .ctor(System.Int32 days, System.Int32 hours, System.Int32 minutes, System.Int32 seconds)
+CachingServiceWithAOP.CacheAttribute constructor .ctor(System.Int32 hours, System.Int32 minutes, System.Int32 seconds)
+CachingServiceWithAOP.CacheAttribute constructor .ctor(System.Int64 ticks)
+CachingServiceWithAOP.CacheAttribute implements System.Runtime.InteropServices._Attribute
+CachingServiceWithAOP.CacheAttribute property System.TimeSpan? CacheTimeout { get; set; }
+CachingServiceWithAOP.CacheAttribute type class
+CachingServiceWithAOP.CachingServices.DefaultCacheKeyService constructor .ctor()
+CachingServiceWithAOP.CachingServices.DefaultCacheKeyService implements CachingServiceWithAOP.CachingServices.IKeyService
+CachingServiceWithAOP.CachingServices.DefaultCacheKeyService method System.String GenerateUniqueKeyForCall(Castle.DynamicProxy.IInvocation invocation)
+CachingServiceWithAOP.CachingServices.DefaultCacheKeyService type class
+CachingServiceWithAOP.CachingServices.ICacheService method System.Void GetByInvocation(Castle.DynamicProxy.IInvocation invocation, System.TimeSpan? duration = null)
+CachingServiceWithAOP.CachingServices.ICacheService method System.Void Set<T>(System.String key, T value)
+CachingServiceWithAOP.CachingServices.ICacheService method T Get<T>(System.String key)
+CachingServiceWithAOP.CachingServices.ICacheService method T Get<T>(System.String key, System.Func<T> retrievalFunc)
+CachingServiceWithAOP.CachingServices.ICacheService type interface
+CachingServiceWithAOP.CachingServices.IKeyService method System.String GenerateUniqueKeyForCall(Castle.DynamicProxy.IInvocation invocation)
+CachingServiceWithAOP.CachingServices.IKeyService type interface
+CachingServiceWithAOP.CachingServices.MemoryCacheService constructor .ctor()
+CachingServiceWithAOP.CachingServices.MemoryCacheService constructor .ctor(System.Int32 absoluteHours, System.Int32 absoluteMinutes, System.Int32 absoluteSeconds)
+CachingServiceWithAOP.CachingServices.MemoryCacheService constructor .ctor(System.Int64 absoluteTicks)
+CachingServiceWithAOP.CachingServices.MemoryCacheService constructor .ctor(System.Runtime.Caching.ObjectCache backingCache)
+CachingServiceWithAOP.CachingServices.MemoryCacheService constructor .ctor(System.TimeSpan expiration)
+CachingServiceWithAOP.CachingServices.MemoryCacheService implements CachingServiceWithAOP.CachingServices.ICacheService
+CachingServiceWithAOP.CachingServices.MemoryCacheService method System.Void GetByInvocation(Castle.DynamicProxy.IInvocation invocation, System.TimeSpan? duration = null)
+CachingServiceWithAOP.CachingServices.MemoryCacheService method System.Void Set<T>(System.String key, T value)
+CachingServiceWithAOP.CachingServices.MemoryCacheService method T Get<T>(System.String key)
+CachingServiceWithAOP.CachingServices.MemoryCacheService method T Get<T>(System.String key, System.Func<T> retrievalFunc)
+CachingServiceWithAOP.CachingServices.MemoryCacheService type class
+CachingServiceWithAOP.Extensions.AutofacExtensions method static extension Autofac.Builder.IRegistrationBuilder<TLimit, TActivatorData, TRegistrionStyle> EnableCacheInterception<TLimit, TActivatorData, TRegistrionStyle>(Autofac.Builder.IRegistrationBuilder<TLimit, TActivatorData, TRegistrionStyle> builder)
+CachingServiceWithAOP.Extensions.AutofacExtensions method static extension System.Boolean HasCacheAttribute(Autofac.Core.IComponentRegistration registration)
+CachingServiceWithAOP.Extensions.AutofacExtensions method static extension System.Void RegisterCachingModule(Autofac.ContainerBuilder builder)
+CachingServiceWithAOP.Extensions.AutofacExtensions type static class
+CachingServiceWithAOP.Extensions.ReflectionExtensions method static extension System.Boolean HasCacheAttribute(System.Reflection.MethodInfo method)
+CachingServiceWithAOP.Extensions.ReflectionExtensions type static class

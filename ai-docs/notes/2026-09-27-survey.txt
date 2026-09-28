@@ -1,0 +1,158 @@
+# NuGet survey: CachingServiceWithAOPSupport (2026-09-27T23:42Z)
+
+## Versions (flat container, includes unlisted)
+$ curl -s https://api.nuget.org/v3-flatcontainer/cachingservicewithaopsupport/index.json
+1.0.0 1.0.1
+
+## Search entry: total downloads, verified owner, listed versions
+$ curl -s 'https://azuresearch-usnc.nuget.org/query?q=packageid:CachingServiceWithAOPSupport&prerelease=true'
+{
+ "id": "CachingServiceWithAOPSupport",
+ "latest": "1.0.1",
+ "totalDownloads": 4008,
+ "verified": false,
+ "owners": [
+  "rogersm0"
+ ],
+ "authors": [
+  "Mark Rogers"
+ ],
+ "license": "https://github.com/m4bwav/CachingServiceWithAOPSupport/blob/master/LICENSE",
+ "project": "https://github.com/m4bwav/CachingServiceWithAOPSupport",
+ "tags": [
+  "Cache",
+  "Autofac",
+  "DynamicProxy2",
+  "AOP",
+  "Castle",
+  "DynamicProxy"
+ ],
+ "deprecation": null,
+ "vulnerabilities": []
+}
+ 1.0.0 downloads=1709
+ 1.0.1 downloads=2299
+
+## Registration index: per-version listed flag, published date, deprecation, target frameworks
+$ curl -s --compressed https://api.nuget.org/v3/registration5-gz-semver2/cachingservicewithaopsupport/index.json
+1.0.0 listed=true published=2015-04-18
+1.0.1 listed=true published=2015-04-18
+   (any): Autofac.Extras.DynamicProxy2 [3.0.5, )
+
+## Package files of the latest version (nupkg is a zip)
+$ curl -s -o pkg.nupkg https://api.nuget.org/v3-flatcontainer/cachingservicewithaopsupport/<version>/cachingservicewithaopsupport.<version>.nupkg; unzip -l pkg.nupkg
+Archive:  pkg.nupkg
+  Length      Date    Time    Name
+---------  ---------- -----   ----
+      513  2015-04-18 17:40   _rels/.rels
+     1073  2015-04-18 17:40   CachingServiceWithAOPSupport.nuspec
+    12288  2015-04-18 17:40   lib/net45/CachingServiceWithAOP.dll
+      708  2015-04-18 17:40   package/services/metadata/core-properties/ca794ca0c078464a8b233404e9c5395d.psmdcp
+      448  2015-04-18 17:40   [Content_Types].xml
+     9465  2018-12-14 07:16   .signature.p7s
+---------                     -------
+    24495                     6 files
+nuspec:
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>CachingServiceWithAOPSupport</id>
+        <version>1.0.1</version>
+        <title>Caching Service With Autofac AOP Support</title>
+        <authors>Mark Rogers</authors>
+        <owners>Mark Rogers</owners>
+        <licenseUrl>https://github.com/m4bwav/CachingServiceWithAOPSupport/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/m4bwav/CachingServiceWithAOPSupport</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Provides an all-prupose caching service with Autofac AOP configuration extensions.</description>
+        <releaseNotes>First Release.</releaseNotes>
+        <copyright>Copyright 2015</copyright>
+        <tags>Cache Autofac DynamicProxy2 AOP Castle DynamicProxy</tags>
+        <dependencies>
+            <dependency id="Autofac.Extras.DynamicProxy2" version="3.0.5" />
+        </dependencies>
+    </metadata>
+</package>
+# GitHub side (m4bwav/CachingServiceWithAOPSupport)
+# GitHub survey: m4bwav/CachingServiceWithAOPSupport (2026-09-27T23:42Z)
+
+## Repository
+$ gh repo view m4bwav/CachingServiceWithAOPSupport --json name,description,defaultBranchRef,pushedAt,createdAt,licenseInfo,stargazerCount,forkCount,isArchived,homepageUrl --jq '{name,description,defaultBranch:.defaultBranchRef.name,pushedAt,createdAt,license:.licenseInfo.key,stars:.stargazerCount,forks:.forkCount,archived:.isArchived,homepage:.homepageUrl}'
+{"archived":false,"createdAt":"2015-04-18T18:35:12Z","defaultBranch":"master","description":"Provides an an all-purpose caching service with Autofac/DynamicProxy2 AOP Support","forks":1,"homepage":"","license":"mit","name":"CachingServiceWithAOPSupport","pushedAt":"2015-04-18T22:50:05Z","stars":2}
+
+## Settings and security features
+$ gh api repos/m4bwav/CachingServiceWithAOPSupport --jq '{delete_branch_on_merge, has_wiki, has_projects, allow_squash_merge, web_commit_signoff_required, security_and_analysis}'
+{"allow_squash_merge":true,"delete_branch_on_merge":false,"has_projects":true,"has_wiki":true,"security_and_analysis":{"dependabot_security_updates":{"status":"disabled"},"secret_scanning":{"status":"disabled"},"secret_scanning_non_provider_patterns":{"status":"disabled"},"secret_scanning_push_protection":{"status":"disabled"},"secret_scanning_validity_checks":{"status":"disabled"}},"web_commit_signoff_required":false}
+
+## Default workflow permissions
+$ gh api repos/m4bwav/CachingServiceWithAOPSupport/actions/permissions/workflow
+{"default_workflow_permissions":"write","can_approve_pull_request_reviews":true}
+## Branches
+$ gh api repos/m4bwav/CachingServiceWithAOPSupport/branches --paginate --jq '.[].name'
+master
+
+## Rulesets and branch protection
+$ gh api repos/m4bwav/CachingServiceWithAOPSupport/rulesets --jq '.[] | "\(.id) \(.name) \(.enforcement)"'; gh api repos/m4bwav/CachingServiceWithAOPSupport/branches/$(gh repo view m4bwav/CachingServiceWithAOPSupport --json defaultBranchRef --jq .defaultBranchRef.name)/protection --jq . 2>/dev/null || echo '(no classic branch protection)'
+{"message":"Branch not protected","documentation_url":"https://docs.github.com/rest/branches/branch-protection#get-branch-protection","status":"404"}(no classic branch protection)
+
+## Issues (all states)
+$ gh issue list -R m4bwav/CachingServiceWithAOPSupport --state all --limit 100 --json number,title,state,author,createdAt,closedAt --jq '.[] | "#\(.number) \(.state) \(.createdAt[:10]) \(.author.login): \(.title)"'
+
+## Pull requests (all states)
+$ gh pr list -R m4bwav/CachingServiceWithAOPSupport --state all --limit 100 --json number,title,state,author,headRefName,createdAt --jq '.[] | "#\(.number) \(.state) \(.createdAt[:10]) \(.author.login) [\(.headRefName)]: \(.title)"'
+
+## Open Dependabot alerts by severity, package and scope
+$ gh api "repos/m4bwav/CachingServiceWithAOPSupport/dependabot/alerts?state=open&per_page=100" --paginate --jq '.[] | "\(.security_advisory.severity) \(.dependency.package.name) \(.dependency.scope)"' | sort | uniq -c | sort -rn
+
+## Open Dependabot alerts, count
+$ gh api "repos/m4bwav/CachingServiceWithAOPSupport/dependabot/alerts?state=open&per_page=100" --paginate --jq length
+0
+
+## Webhooks (dead services leave these)
+$ gh api repos/m4bwav/CachingServiceWithAOPSupport/hooks --jq '.[] | "\(.id) \(.config.url) active=\(.active) events=\(.events|join(","))"'
+
+## Actions secrets (count) and variables
+$ gh api repos/m4bwav/CachingServiceWithAOPSupport/actions/secrets --jq '{total_count, names:[.secrets[].name]}'; gh api repos/m4bwav/CachingServiceWithAOPSupport/actions/variables --jq '{total_count, names:[.variables[].name]}'
+{"names":[],"total_count":0}
+{"names":[],"total_count":0}
+
+## Environments
+$ gh api repos/m4bwav/CachingServiceWithAOPSupport/environments --jq '.environments[]? | "\(.name) reviewers=\([.protection_rules[]? | select(.type=="required_reviewers") | .reviewers[]?.reviewer.login] | join(","))"'
+
+## Workflows
+$ gh api repos/m4bwav/CachingServiceWithAOPSupport/actions/workflows --jq '.workflows[] | "\(.name) \(.path) \(.state)"'
+
+## Action pins in the default branch's workflows, with each action's runtime
+$ action_pins (git tree, contents API, action.yml at each ref)
+(no workflow files)
+
+## Forks
+$ gh api repos/m4bwav/CachingServiceWithAOPSupport/forks --jq '.[] | "\(.full_name) pushed=\(.pushed_at[:10])"'
+WingStudio/CachingServiceWithAOPSupport pushed=2015-04-18
+
+## Releases and tags
+$ gh release list -R m4bwav/CachingServiceWithAOPSupport --limit 20; gh api repos/m4bwav/CachingServiceWithAOPSupport/tags --jq '.[].name' | head -30
+
+## Dead-service files in the default branch
+$ gh api repos/m4bwav/CachingServiceWithAOPSupport/git/trees/HEAD?recursive=1 --jq '.tree[].path' | grep -Ei '^(\.travis\.yml|\.snyk|\.synk|\.sonarcloud\.properties|sonar-project\.properties|\.coveralls\.yml|codecov\.yml|\.codecov\.yml|appveyor\.yml|\.circleci/|\.npmignore|\.nuspec|\.vscode/)' || echo '(none)'
+(none)
+
+## Dotfiles at the root of the default branch
+$ gh api repos/m4bwav/CachingServiceWithAOPSupport/contents --jq '.[].name' | grep '^\.' || echo '(none)'
+.gitignore
+
+## Branches with no open pull request (stale work or bot leftovers; each needs a disposition)
+$ comm -23 <(gh api repos/m4bwav/CachingServiceWithAOPSupport/branches --paginate --jq '.[].name' | sort) <( (gh pr list -R m4bwav/CachingServiceWithAOPSupport --state open --limit 200 --json headRefName --jq '.[].headRefName'; gh repo view m4bwav/CachingServiceWithAOPSupport --json defaultBranchRef --jq .defaultBranchRef.name) | sort) || echo '(none)'
+
+## Badges in the README
+$ gh api repos/m4bwav/CachingServiceWithAOPSupport/readme --jq .content | base64 -d 2>/dev/null | grep -Eo 'https?://[^ )]*(shields\.io|travis-ci|david-dm|snyk\.io|coveralls|codecov|gitter|sonarcloud|nodei\.co|badgen|badge)[^ )]*' | sort -u || echo '(none)'
+
+## Things only the maintainer can see
+- Installed GitHub Apps and authorized OAuth apps: github.com/settings/installations and github.com/settings/applications (the API refuses the gh token).
+- Whether a token in history is still live: revoke it at the provider regardless.
+
+## Next: in the clone
+- Read every .csproj, .sln or .slnx, Directory.Build.props, .nuspec, packages.config, global.json, the tests, the README and every dotfile.
+- dotnet --list-sdks; dotnet restore; dotnet build; dotnet test as they are (an old project may need a .NET Framework reference assembly pack or the Windows SDK).
+- dotnet list package --outdated --include-transitive; dotnet list package --vulnerable --include-transitive.
+- Then the golden capture from the PUBLISHED package in a scratch console project (scripts/golden-capture-nuget.template.cs).
