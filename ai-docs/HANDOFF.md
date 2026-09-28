@@ -3,22 +3,20 @@
 <!-- Keep under 50 lines. Replace, never append. Written at the end of a work session so the next one starts without re-deriving state. -->
 
 ## Current state
-- Modernization with the package-modernize skill; plan [plans/2026-09-27-modernization-and-v2-release.md](plans/2026-09-27-modernization-and-v2-release.md). Phases 0-4 done: pull request #1 merged (40327ba), settings and rulesets on, Trusted Publishing policy created by Mark.
-- Phase 5: master at e29385b has version 2.0.0-beta.1; tag v2.0.0-beta.1 pushed; release run 36365583388 waits at the `nuget` environment for Mark's approval.
+- **CachingServiceWithAOPSupport 2.0.0 is released and verified** (2026-09-28 UTC): nuget.org latest, GitHub Release v2.0.0, verify-published run 36368035840 green on three OSes, attestation from release.yml at the tag. 2.0.0-beta.1 is the verified rehearsal. Evidence: [log.md](log.md); plan: [plans/2026-09-27-modernization-and-v2-release.md](plans/2026-09-27-modernization-and-v2-release.md) (done).
+- Settings: rulesets 24089709 (master, required `ci`) and 24089711 (tags, admins only); scanning, push protection, private reporting, Dependabot security updates; workflow permissions read; environment `nuget` (reviewer m4bwav); Trusted Publishing policy on nuget.org bound to release.yml and `nuget`.
+- PackageValidationBaselineVersion is 2.0.0.
 
-## In progress
-After the approval: `gh run watch 36365583388`, then `gh workflow run verify-published.yml -f version=2.0.0-beta.1`, check `gh release view v2.0.0-beta.1`. Then Phase 6: version 2.0.0, date the CHANGELOG heading (drop or keep the beta section), pull request, ci green, tag v2.0.0, approval, verify-published 2.0.0, PackageValidationBaselineVersion 2.0.0, Mark deprecates 1.0.0 and 1.0.1 (fields in the plan's Appendix A).
+## Owed by Mark
+- Deprecate 1.0.0 (Critical bugs) and 1.0.1 (Legacy) on nuget.org with the alternate CachingServiceWithAOPSupport, the messages in the plan's Appendix A. Optionally unlist 1.0.0 (it ships the 2015 build caches with a local path).
 
-## Decisions made this session
-- [decisions/2026-09-27-modernize-v2-fixes-in-place.md](decisions/2026-09-27-modernize-v2-fixes-in-place.md) (accepted). D5: the DynamicProxy 7.1.0 floor stands (the mixed Autofac 9 consumer passed).
+## Standing work
+- Dependabot pull requests (weekly, Monday; three-day cooldown): merge when `ci` is green. Autofac, Autofac.Extras.DynamicProxy and Castle.Core are ignored on purpose (declared floors, plan D5); raise a floor only for an advisory or a needed API, and keep tests/consumers/run.sh's current set at the latest versions (it names Autofac 9.3.4 and DynamicProxy 8.1.0).
+- The .NET 8 and 9 end of support (2026-11-10) does not touch the targets (netstandard2.0 and net10.0). .NET 11 (November 2026): add net11.0 to the test matrix when the SDK ships; global.json follows through Dependabot.
+- A release: the ritual in AGENTS.md (CHANGELOG, `<Version>`, pull request, green `ci`, tag, approval, verify-published).
 
-## Dead ends hit
-- The 2015 projects cannot build on the .NET 10 SDK; the old tests ran unchanged against the published package in a scratch net48 project.
-- Passing a pending Task or TaskCompletionSource as an intercepted argument hangs: key building reads Task.Result (as 1.0.1 did). Use `dotnet test --blame-hang-timeout 60s --blame-hang-dump-type none` to name a hanging test.
-- Bash heredocs turn `\\` into `\`, even quoted: write generator scripts with the editor tools.
-
-## Also owed after this run
-- Evergreen upkeep the SessionStart hooks asked for (claims due on acestep-music, comfyui-gen, dandy, evergreen; package-modernize is due 2026-10-05); the inventory row at the end of the release.
+## Optional extras (not planned)
+- An IMemoryCache or HybridCache-backed ICacheService; honouring [Cache] on interface methods; async-aware keys. Each needs a plan decision.
 
 ## Next single action
-Mark approves release run 36365583388 in the browser; then verify-published 2.0.0-beta.1.
+None for the package. For Mark's records: the inventory row and the kickoff's corrections are in m4bwav/package-modernization.

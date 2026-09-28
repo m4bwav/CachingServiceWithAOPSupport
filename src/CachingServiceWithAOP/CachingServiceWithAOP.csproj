@@ -6,10 +6,10 @@
     <RootNamespace>CachingServiceWithAOP</RootNamespace>
     <AssemblyName>CachingServiceWithAOP</AssemblyName>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <!-- Package validation compares the targets with each other; 1.0.1 (net45, Autofac 3, Castle.Core 3) cannot be a
-         baseline, so tests/CachingServiceWithAOP.Tests/PublicApi-1.0.1.txt guards the 1.x API instead. After 2.0.0 ships,
-         set PackageValidationBaselineVersion to 2.0.0. -->
+    <!-- Package validation compares the targets with each other and with the published 2.0.0 (API compatibility for 2.x).
+         tests/CachingServiceWithAOP.Tests/PublicApi-1.0.1.txt still guards the 1.x API. -->
     <EnablePackageValidation>true</EnablePackageValidation>
+    <PackageValidationBaselineVersion>2.0.0</PackageValidationBaselineVersion>
   </PropertyGroup>
 
   <PropertyGroup Label="Package">
