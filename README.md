@@ -64,10 +64,11 @@ var report = cache.Get("report", () => BuildReport()); // BuildReport runs once 
 
 ## Behaviour
 
-- **Keys.** A cached call's key is the target object's `ToString()`, the method name, its generic arguments, its parameter types, and every argument written as JSON (public fields, then public properties, as .NET Framework's JavaScriptSerializer wrote them; 2.x makes byte-for-byte the keys 1.0.1 made). So:
+- **Keys.** A cached call's key is the target object's `ToString()`, the method name, its generic arguments, its parameter types, and every argument written as JSON (public fields, then public properties, as .NET Framework's JavaScriptSerializer wrote them; on .NET Framework 2.x makes byte for byte the keys 1.0.1 made, and on .NET the same apart from the last digit of a small share of doubles and floats). So:
   - two instances of a class share entries unless the class overrides `ToString()`;
   - arguments should be values or small data objects: building a key reads every public getter of every argument (a `Task` argument's `Result` would block, a lazy property would load);
-  - an argument that cannot be written (a reference cycle, nesting deeper than 100, a dictionary with non-string keys, a key over 2 097 152 characters) makes the call run without caching.
+  - an argument that cannot be written (a reference cycle, nesting deeper than 100, a dictionary with non-string keys, an enum based on long or ulong, a key over 2 097 152 characters) makes the call run without caching; an exception an argument throws while being read (an iterator, a getter) reaches the caller as before;
+  - a `DateTimeOffset` argument keys by its instant, so the same moment at two offsets shares an entry;
   - arguments of a .NET struct type other than `TimeSpan` whose public properties differ between .NET Framework and .NET give different keys on the two runtimes; keys only need to agree within one process.
 - **Store.** Every `MemoryCacheService` made without an `ObjectCache` shares `MemoryCache.Default`. Entries expire at an absolute time.
 - **Results.** Null results are cached. Void methods and methods returning `ValueTask` always run and are never cached. A returned `Task` stays cached while it succeeds and is removed when it faults or is cancelled. An exception is never cached.

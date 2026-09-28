@@ -32,6 +32,24 @@ namespace CachingServiceWithAOP.Tests
         }
 
         [Test]
+        public void No_public_member_was_added()
+        {
+            var baseline = new HashSet<string>(File.ReadAllLines(Path.Combine(TestContext.CurrentContext.TestDirectory, "PublicApi-1.0.1.txt")), StringComparer.Ordinal);
+            var added = List(typeof(ReflectionExtensions).Assembly).Where(l => !baseline.Contains(l)).ToList();
+            Assert.That(added, Is.Empty, string.Join(Environment.NewLine, added));
+        }
+
+        [Test]
+        public void CacheAttribute_keeps_1_0_1_usage()
+        {
+            var usage = (AttributeUsageAttribute)Attribute.GetCustomAttribute(typeof(CacheAttribute), typeof(AttributeUsageAttribute))!;
+            Assert.That(usage.ValidOn, Is.EqualTo(AttributeTargets.All));
+            Assert.That(usage.AllowMultiple, Is.False);
+            Assert.That(usage.Inherited, Is.True);
+            Assert.That(typeof(CacheAttribute).IsSealed, Is.False);
+        }
+
+        [Test]
         public void No_public_type_was_added()
         {
             var types = typeof(ReflectionExtensions).Assembly.GetExportedTypes().Select(t => t.FullName).OrderBy(n => n, StringComparer.Ordinal);

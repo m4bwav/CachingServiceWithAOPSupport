@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace CachingServiceWithAOP.CachingServices
@@ -21,7 +22,26 @@ namespace CachingServiceWithAOP.CachingServices
         internal const int MaxJsonLength = 2097152;
 
         private const char Backslash = (char)92;
+
+        // Set in Exception.Data on the exceptions JavaScriptSerializer threw for an argument it could not write (a cycle,
+        // the recursion limit, a dictionary key that is not a string, the length limit, a long or ulong enum). The types and
+        // messages stay 1.0.1's; the marker lets MemoryCacheService run such a call uncached without catching anything else.
+        internal const string UncacheableMarker = "CachingServiceWithAOP.UncacheableArgument";
+
+        private static readonly bool IsNetFramework = RuntimeInformation.FrameworkDescription.StartsWith(".NET Framework", StringComparison.Ordinal);
         private static readonly long UnixEpochTicks = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc).Ticks;
+
+        public static bool IsUncacheable(Exception e)
+        {
+            return e.Data.Contains(UncacheableMarker);
+        }
+
+        private static T Uncacheable<T>(T e)
+            where T : Exception
+        {
+            e.Data[UncacheableMarker] = true;
+            return e;
+        }
 
         public static string Serialize(object? value)
         {
@@ -30,7 +50,7 @@ namespace CachingServiceWithAOP.CachingServices
             Write(sb, value, 0, inUse);
             if (sb.Length > MaxJsonLength)
             {
-                throw new InvalidOperationException("Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property.");
+                throw Uncacheable(new InvalidOperationException("Error during serialization or deserialization using the JSON JavaScriptSerializer. The length of the string exceeds the value set on the maxJsonLength property."));
             }
 
             return sb.ToString();
@@ -40,7 +60,7 @@ namespace CachingServiceWithAOP.CachingServices
         {
             if (++depth > RecursionLimit)
             {
-                throw new ArgumentException("RecursionLimit exceeded.");
+                throw Uncacheable(new ArgumentException("RecursionLimit exceeded."));
             }
 
             switch (o)
@@ -67,15 +87,18 @@ namespace CachingServiceWithAOP.CachingServices
                     sb.Append(b ? "true" : "false");
                     return;
                 case DateTime dt:
-                    sb.Append('"').Append(Backslash).Append("/Date(")
-                        .Append(((dt.ToUniversalTime().Ticks - UnixEpochTicks) / 10000).ToString(CultureInfo.InvariantCulture))
-                        .Append(')').Append(Backslash).Append("/\"");
+                    WriteDate(sb, dt.ToUniversalTime());
+                    return;
+                case DateTimeOffset dto:
+                    // The Framework wrote the instant, so one instant at any offset is one key.
+                    WriteDate(sb, dto.UtcDateTime);
                     return;
                 case Guid g:
                     Quote(sb, g.ToString());
                     return;
                 case Uri u:
-                    Quote(sb, u.GetComponents(UriComponents.SerializationInfoString, UriFormat.UriEscaped));
+                    // Written as the Framework did: quoted, without JavaScript escaping.
+                    sb.Append('"').Append(u.GetComponents(UriComponents.SerializationInfoString, UriFormat.UriEscaped)).Append('"');
                     return;
                 case double d:
                     sb.Append(RoundTrip(d));
@@ -84,23 +107,30 @@ namespace CachingServiceWithAOP.CachingServices
                     sb.Append(RoundTrip(f));
                     return;
                 case Enum e:
+                    var underlying = Enum.GetUnderlyingType(e.GetType());
+                    if (underlying == typeof(long) || underlying == typeof(ulong))
+                    {
+                        throw Uncacheable(new InvalidOperationException("Enums based on System.Int64 or System.UInt64 are not JSON-serializable because JavaScript does not support the necessary precision."));
+                    }
+
                     sb.Append(e.ToString("D"));
                     return;
                 case TimeSpan ts:
-                    WriteTimeSpan(sb, ts);
+                    WriteTimeSpan(sb, ts, depth);
                     return;
             }
 
             var type = o.GetType();
             if (type.IsPrimitive || o is decimal)
             {
-                sb.Append(((IConvertible)o).ToString(CultureInfo.InvariantCulture));
+                // IntPtr and UIntPtr are primitive but not IConvertible.
+                sb.Append(o is IConvertible convertible ? convertible.ToString(CultureInfo.InvariantCulture) : o.ToString());
                 return;
             }
 
             if (inUse.Contains(o))
             {
-                throw new InvalidOperationException("A circular reference was detected while serializing an object of type '" + type.FullName + "'.");
+                throw Uncacheable(new InvalidOperationException("A circular reference was detected while serializing an object of type '" + type.FullName + "'."));
             }
 
             inUse.Add(o);
@@ -140,13 +170,29 @@ namespace CachingServiceWithAOP.CachingServices
 
         private static void WriteDictionary(StringBuilder sb, IDictionary dictionary, int depth, HashSet<object> inUse)
         {
+            const string ServerTypeFieldName = "__type";
             sb.Append('{');
             var first = true;
+
+            // The Framework wrote a "__type" entry first.
+            if (dictionary.Contains(ServerTypeFieldName))
+            {
+                first = false;
+                Quote(sb, ServerTypeFieldName);
+                sb.Append(':');
+                Write(sb, dictionary[ServerTypeFieldName], depth, inUse);
+            }
+
             foreach (DictionaryEntry entry in dictionary)
             {
                 if (entry.Key is not string key)
                 {
-                    throw new ArgumentException("Type '" + dictionary.GetType().FullName + "' is not supported for serialization/deserialization of a dictionary, keys must be strings or objects.");
+                    throw Uncacheable(new ArgumentException("Type '" + dictionary.GetType().FullName + "' is not supported for serialization/deserialization of a dictionary, keys must be strings or objects."));
+                }
+
+                if (key == ServerTypeFieldName)
+                {
+                    continue;
                 }
 
                 if (!first)
@@ -196,8 +242,14 @@ namespace CachingServiceWithAOP.CachingServices
         // TimeSpan as .NET Framework's reflection saw it: its eleven public properties, the totals computed as the Framework
         // computed them. .NET 7 added four properties and .NET Core computes TotalHours exactly, so reflection would give
         // other keys there (the golden case WithTimeSpan(90 s) records the Framework text).
-        private static void WriteTimeSpan(StringBuilder sb, TimeSpan ts)
+        private static void WriteTimeSpan(StringBuilder sb, TimeSpan ts, int depth)
         {
+            // The Framework wrote the TimeSpan's members one level deeper.
+            if (depth + 1 > RecursionLimit)
+            {
+                throw Uncacheable(new ArgumentException("RecursionLimit exceeded."));
+            }
+
             const long TicksPerMillisecond = 10000;
             const double MaxMilliseconds = long.MaxValue / TicksPerMillisecond;
             const double MinMilliseconds = long.MinValue / TicksPerMillisecond;
@@ -232,6 +284,13 @@ namespace CachingServiceWithAOP.CachingServices
             sb.Append('}');
         }
 
+        private static void WriteDate(StringBuilder sb, DateTime utc)
+        {
+            sb.Append('"').Append(Backslash).Append("/Date(")
+                .Append(((utc.Ticks - UnixEpochTicks) / 10000).ToString(CultureInfo.InvariantCulture))
+                .Append(')').Append(Backslash).Append("/\"");
+        }
+
         private static void Member(StringBuilder sb, ref bool first, string name)
         {
             if (!first)
@@ -250,10 +309,17 @@ namespace CachingServiceWithAOP.CachingServices
             return member.GetCustomAttributes(true).Any(a => a.GetType().Name == "ScriptIgnoreAttribute");
         }
 
-        // .NET Framework's "R": 15 significant digits when they round-trip, else 17. .NET Core's "R" is the shortest
-        // round-trip form and writes -0 as "-0", so the Framework rule is applied by hand on every runtime.
+        // JavaScriptSerializer wrote ToString("r"). On .NET Framework that is used as it is. .NET's "R" is the shortest
+        // round-trip form and writes -0 as "-0", so there the Framework rule (15 significant digits when they round-trip,
+        // else 17) is applied by hand. .NET formats the 17th digit exactly where the Framework rounded it, so a small share
+        // of doubles and floats differ from 1.0.1 in their last digit on .NET; keys stay one per value.
         private static string RoundTrip(double d)
         {
+            if (IsNetFramework)
+            {
+                return d.ToString("R", CultureInfo.InvariantCulture);
+            }
+
             if (d == 0)
             {
                 return "0";
@@ -265,11 +331,16 @@ namespace CachingServiceWithAOP.CachingServices
             }
 
             var s = d.ToString("G15", CultureInfo.InvariantCulture);
-            return double.Parse(s, CultureInfo.InvariantCulture) == d ? s : d.ToString("G17", CultureInfo.InvariantCulture);
+            return double.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out var back) && back == d ? s : d.ToString("G17", CultureInfo.InvariantCulture);
         }
 
         private static string RoundTrip(float f)
         {
+            if (IsNetFramework)
+            {
+                return f.ToString("R", CultureInfo.InvariantCulture);
+            }
+
             if (f == 0)
             {
                 return "0";
@@ -281,7 +352,7 @@ namespace CachingServiceWithAOP.CachingServices
             }
 
             var s = f.ToString("G7", CultureInfo.InvariantCulture);
-            return float.Parse(s, CultureInfo.InvariantCulture) == f ? s : f.ToString("G9", CultureInfo.InvariantCulture);
+            return float.TryParse(s, NumberStyles.Float, CultureInfo.InvariantCulture, out var back) && back == f ? s : f.ToString("G9", CultureInfo.InvariantCulture);
         }
 
         private static void Quote(StringBuilder sb, string s)

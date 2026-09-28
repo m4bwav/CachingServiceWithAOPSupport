@@ -149,7 +149,7 @@ namespace CachingServiceWithAOP.CachingServices
             {
                 key = _keyService.GenerateUniqueKeyForCall(invocation);
             }
-            catch (Exception e) when (e is InvalidOperationException || e is ArgumentException)
+            catch (Exception e) when (ScriptJson.IsUncacheable(e))
             {
                 invocation.Proceed();
                 return;
@@ -212,20 +212,19 @@ namespace CachingServiceWithAOP.CachingServices
 
             Store(key, task, duration);
 
-            if (!task.IsCompleted)
-            {
-                task.ContinueWith(
-                    t =>
+            // Always: a task that faults between the check above and here must still be evicted; on a completed task the
+            // continuation runs at once.
+            task.ContinueWith(
+                t =>
+                {
+                    if ((t.IsFaulted || t.IsCanceled) && ReferenceEquals(_backingCache.Get(key), t))
                     {
-                        if ((t.IsFaulted || t.IsCanceled) && ReferenceEquals(_backingCache.Get(key), t))
-                        {
-                            _backingCache.Remove(key);
-                        }
-                    },
-                    CancellationToken.None,
-                    TaskContinuationOptions.ExecuteSynchronously,
-                    TaskScheduler.Default);
-            }
+                        _backingCache.Remove(key);
+                    }
+                },
+                CancellationToken.None,
+                TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
         }
 
         private void Store(string key, object? value, TimeSpan? duration)
@@ -252,14 +251,15 @@ namespace CachingServiceWithAOP.CachingServices
             return now.Add(lifetime);
         }
 
+        // A cached null answers only a caller whose type can hold null; for a value type it is a miss.
         private static bool IsHit<T>(object? result)
         {
-            return result is T || result is NullValue;
+            return result is NullValue ? default(T) is null : result is T;
         }
 
         private static T? CastResultToTypeOrDefault<T>(object? result)
         {
-            if (result is not T typed)
+            if (result is NullValue || result is not T typed)
             {
                 return default;
             }

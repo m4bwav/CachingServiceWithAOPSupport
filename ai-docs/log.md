@@ -43,3 +43,15 @@ Append-only. One line per operation: `## [YYYY-MM-DD] op | title` where op is on
 - actionlint 1.7.12 (release zip, checksum verified): clean. zizmor 1.30.1 --offline: no findings (4 suppressed). check-workflow-shell.py: exit 0. check-readme-images.mjs: the two shields.io badges ok, the ci badge 404 until ci.yml is on master.
 - Fresh clone of v2 (f0ab1df): locked restore, build, tests 4 of 4 runs green.
 - Trap: the Bash tool's quoted heredoc turned a Python `'%s\n'` into a real newline inside run.sh; repaired with chr(92) (the memory note of 2026-09-25 again).
+
+## [2026-09-27] add | Pull request, CI, settings (L-077), templates
+- Pull request #1 (v2 into master) opened with a "For review" list; CI run 36363389674: build and test (ubuntu-24.04) success, build and test (windows-latest) success, ci success (tests on net10.0 and net48, package content and dependency check, consumers in three dependency sets).
+- D16 settings applied with gh before the pull-request stop (L-077) and read back: branch ruleset 24089709 `master` (copied from IsImageUrlDotNet's: deletion, non_fast_forward, required check `ci`, admin bypass), tag ruleset 24089711 "Tags only by admins" (templates/rulesets/tags-admins-only.json); secret scanning and push protection enabled; vulnerability alerts, Dependabot security updates and private vulnerability reporting on; default workflow permissions read, Actions may not approve pull requests; delete_branch_on_merge true, wiki and projects off, homepage the nuget.org page, description and topics (aop, autofac, caching, castle-dynamicproxy, nuget).
+- The skill's NuGet templates now come from this run's CI-proven workflows: package-modernize pull request #5 (782def4, C-20260927-14, L-083 to L-085). Earlier: #4 (01283e5, C-20260927-13, L-078 to L-082).
+## [2026-09-27] index | rebuilt (5 entries)
+
+## [2026-09-27] add | Phase 3: independent review and fixes
+- Review subagent (prompts/review-subagent.md, read-only, about 9 minutes): 12 findings from a differential fuzz of about 50 000 inputs against the real JavaScriptSerializer on net48, probes against the published 1.0.1 and the packed 2.0.0, and run.sh (6 of 6). Dispositions: ai-docs/notes/2026-09-27-phase-3-review-findings.md (9 fixed with a test each, 3 answered or documented).
+- Fixes: null marker never leaks (Get<object>, value types miss); IntPtr keys; .NET Framework uses its own "R" (double.MaxValue no longer overflows); DateTimeOffset as its instant; raw Uris; `__type` first; long and ulong enums refused as in 1.0.1 and run uncached; only ScriptJson's own refusals (Exception.Data marker) run uncached; ContinueWith always for tasks; TimeSpan counts toward the depth limit.
+- New tests: ReviewTests R1-R12 (R12, net48 only, compares ScriptJson with System.Web.Extensions' JavaScriptSerializer over edge cases and 3 000 seeded random strings, doubles and floats: equal), PublicApiTests.No_public_member_was_added and CacheAttribute_keeps_1_0_1_usage.
+- `dotnet test` (solution): golden 3 of 3 on net10.0 and net48; unit 48 on net10.0, 49 on net48. `dotnet format --verify-no-changes` clean. `git diff --exit-code 348da5d -- tests/Golden` empty.

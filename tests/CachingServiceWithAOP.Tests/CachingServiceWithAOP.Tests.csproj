@@ -25,6 +25,11 @@
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <!-- The real JavaScriptSerializer, for the differential test of ScriptJson (ReviewTests.R12). -->
+    <Reference Include="System.Web.Extensions" />
+  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="../../src/CachingServiceWithAOP/CachingServiceWithAOP.csproj" />
   </ItemGroup>

@@ -4,7 +4,7 @@ All notable changes to this package. The format follows [Keep a Changelog](https
 
 ## [2.0.0] - Unreleased
 
-2.0.0 keeps every public type, member and parameter name of 1.0.1 and answers every call as 1.0.1 did on .NET Framework, with the exceptions listed under Fixed: `tests/Golden` holds 158 calls recorded from the published 1.0.1, and the golden test replays them against every build on .NET Framework 4.8 and .NET 10. Cache keys are byte-for-byte 1.0.1's. The major version is for the dependencies: the API names Autofac and Castle.Core types, whose majors move.
+2.0.0 keeps every public type, member and parameter name of 1.0.1 and answers every call as 1.0.1 did on .NET Framework, with the exceptions listed under Fixed: `tests/Golden` holds 158 calls recorded from the published 1.0.1, and the golden test replays them against every build on .NET Framework 4.8 and .NET 10. Cache keys are 1.0.1's: byte for byte on .NET Framework, and on .NET apart from the last digit of a small share of doubles and floats (.NET formats the 17th digit exactly where the Framework rounded it); every value still has one key. The major version is for the dependencies: the API names Autofac and Castle.Core types, whose majors move.
 
 ### Changed
 
@@ -23,7 +23,7 @@ All notable changes to this package. The format follows [Keep a Changelog](https
 - A lifetime too large for a date (`long.MaxValue` ticks, `TimeSpan.MaxValue`) threw ArgumentOutOfRangeException after the intercepted method ran; it now never expires. One too small for a date keeps nothing, like any negative lifetime.
 - The per-key lock table was an unsynchronised static Dictionary that grew with every key, and intercepted calls took no lock: concurrent callers all ran the method. Concurrent calls with one key now run it once, and the table only holds keys being computed.
 - A `[Cache]` method returning a Task kept a faulted or cancelled task forever; such tasks are now removed. Methods returning `ValueTask` are not cached (a ValueTask may be awaited only once).
-- An argument that cannot be written into a key (a reference cycle, for example) made the call throw InvalidOperationException before the method ran; the call now runs uncached. `DefaultCacheKeyService.GenerateUniqueKeyForCall` itself still throws, as in 1.0.1.
+- An argument that cannot be written into a key (a reference cycle, nesting deeper than 100, a dictionary with non-string keys, an enum based on long or ulong, a key over the length limit) made the call throw before the method ran; the call now runs uncached. `DefaultCacheKeyService.GenerateUniqueKeyForCall` itself still throws, as in 1.0.1. An exception thrown by the argument itself while its key is built (an iterator, a getter) still reaches the caller.
 
 ### Removed
 

@@ -15,9 +15,10 @@ namespace CachingServiceWithAOP.CachingServices
 
     /// <summary>
     /// The 1.x key: the target's <c>ToString()</c>, the method name, its generic arguments, its parameter types and each
-    /// argument as JSON in the format of .NET Framework's JavaScriptSerializer, byte for byte as 1.0.1 made it. An argument
-    /// that cannot be written (a reference cycle, nesting deeper than 100, a dictionary with non-string keys, more than
-    /// 2 097 152 characters) throws as it did in 1.0.1; the interceptor then runs the call without caching it.
+    /// argument as JSON in the format of .NET Framework's JavaScriptSerializer, as 1.0.1 made it (on .NET, some doubles and
+    /// floats differ in their last digit). An argument that cannot be written (a reference cycle, nesting deeper than 100, a
+    /// dictionary with non-string keys, more than 2 097 152 characters, an enum based on long or ulong) throws as it did in
+    /// 1.0.1; the interceptor then runs the call without caching it.
     /// </summary>
     public class DefaultCacheKeyService : IKeyService
     {
