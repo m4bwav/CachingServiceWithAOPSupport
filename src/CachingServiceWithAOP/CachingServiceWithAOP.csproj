@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard2.0;net10.0</TargetFrameworks>
+    <!-- 1.x's assembly and namespace names; the package id differs and stays as published. -->
+    <RootNamespace>CachingServiceWithAOP</RootNamespace>
+    <AssemblyName>CachingServiceWithAOP</AssemblyName>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!-- Package validation compares the targets with each other; 1.0.1 (net45, Autofac 3, Castle.Core 3) cannot be a
+         baseline, so tests/CachingServiceWithAOP.Tests/PublicApi-1.0.1.txt guards the 1.x API instead. After 2.0.0 ships,
+         set PackageValidationBaselineVersion to 2.0.0. -->
+    <EnablePackageValidation>true</EnablePackageValidation>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
+    <PackageId>CachingServiceWithAOPSupport</PackageId>
+    <Version>2.0.0</Version>
+    <Authors>Mark Rogers</Authors>
+    <Copyright>Copyright (c) 2015-2026 Mark Rogers</Copyright>
+    <Title>Caching Service With Autofac AOP Support</Title>
+    <Description>Method result caching for Autofac: put [Cache] on a component's methods and Castle DynamicProxy interface interceptors keep their results in System.Runtime.Caching's MemoryCache. Runs on .NET Framework 4.6.2+, .NET 8 and .NET 10.</Description>
+    <PackageTags>cache caching autofac aop castle dynamicproxy interceptor memorycache</PackageTags>
+    <PackageProjectUrl>https://github.com/m4bwav/CachingServiceWithAOPSupport</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/m4bwav/CachingServiceWithAOPSupport</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+    <PackageReleaseNotes>See https://github.com/m4bwav/CachingServiceWithAOPSupport/blob/master/CHANGELOG.md</PackageReleaseNotes>
+    <IsPackable>true</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="/" />
+    <None Include="../../icon.png" Pack="true" PackagePath="/" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Floors, not latest (plan D5): DynamicProxy 7.1.0 accepts Autofac 6.5 to 9, so Autofac 6.5+ users can take 2.x.
+         CI proves the floor set, the current set and the mixed set (Autofac 9 with DynamicProxy 7.1.0). -->
+    <PackageReference Include="Autofac.Extras.DynamicProxy" Version="7.1.0" />
+    <PackageReference Include="Autofac" Version="6.5.0" />
+    <PackageReference Include="Castle.Core" Version="5.1.1" />
+    <PackageReference Include="System.Runtime.Caching" Version="10.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="CachingServiceWithAOP.Tests" />
+  </ItemGroup>
+
+</Project>

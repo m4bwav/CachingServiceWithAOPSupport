@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CachingServiceWithAOP/CachingServiceWithAOP.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CachingServiceWithAOP.Tests/CachingServiceWithAOP.Tests.csproj" />
+    <Project Path="tests/CachingServiceWithAOP.GoldenTests/CachingServiceWithAOP.GoldenTests.csproj" />
+  </Folder>
+</Solution>

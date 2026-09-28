@@ -27,3 +27,6 @@ Append-only. One line per operation: `## [YYYY-MM-DD] op | title` where op is on
 - ai-docs/plans/2026-09-27-modernization-and-v2-release.md (D0-D16, E1-E4); ai-docs/decisions/2026-09-27-modernize-v2-fixes-in-place.md (proposed).
 - Stop for the maintainer's plan review.
 ## [2026-09-27] index | rebuilt (4 entries)
+
+## [2026-09-27] update | Plan rulings
+- Mark: "do the decisions as you recommend, just modernize, it can at least function as a code example". D0-D16 stand, E1-E4 accepted, D16 settings approved (apply before the pull-request stop). Trusted Publishing policy not yet confirmed: ask again at the pull-request stop.

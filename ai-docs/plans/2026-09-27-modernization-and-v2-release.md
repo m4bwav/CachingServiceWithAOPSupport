@@ -15,7 +15,7 @@ The plan for taking CachingServiceWithAOPSupport from 1.0.1 (2015, net45, Autofa
 
 ## Status
 
-Active. Phase 1 reached on 2026-09-27; waiting for the maintainer's rulings on the decisions table and the one GitHub question.
+Active. Phase 2 started 2026-09-27. Rulings (2026-09-27): every recommendation D0-D16 stands ("just modernize, it can at least function as a code example"); the D16 settings are approved. Still owed by the maintainer: the Trusted Publishing policy (D13), needed before Phase 5.
 
 ## Goal
 
@@ -117,7 +117,7 @@ Unchanged: the 46 lines of `tests/Golden/PublicApi-1.0.1.txt`, with Castle and A
 - [x] everlast registered (mode repo, sync push); AGENTS.md, CLAUDE.md (the AGENTS.md import line), Copilot pointer
 - [x] Environment `nuget` created (reviewer m4bwav, tag rule `v*`, secret NUGET_USER)
 ### Phase 1: plan
-- [ ] This plan and [../decisions/2026-09-27-modernize-v2-fixes-in-place.md](../decisions/2026-09-27-modernize-v2-fixes-in-place.md). **Stop**: the maintainer rules on the table, answers the GitHub question, adds the Trusted Publishing policy.
+- [x] This plan and [../decisions/2026-09-27-modernize-v2-fixes-in-place.md](../decisions/2026-09-27-modernize-v2-fixes-in-place.md). **Stop**: the maintainer rules on the table, answers the GitHub question, adds the Trusted Publishing policy.
 ### Phase 2: rewrite on branch v2
 - [ ] Remove the D12 files; add the templates; generated icon
 - [ ] Golden replay first, green on the first build apart from E1 to E4; canary after committing (L-074 `commit-before-canary`): a planted line in src/ turns it red, reverted, green (both runs logged); `git diff --exit-code 348da5d -- tests/Golden` empty

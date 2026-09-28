@@ -1,7 +1,7 @@
 ---
 title: Modernize as 2.0.0, with the fixes in the old names
 kind: decision
-status: proposed
+status: accepted
 date: 2026-09-27
 verified: 2026-09-27
 stale_after: never
@@ -15,7 +15,7 @@ summary: "proposed: modernize rather than deprecate; the net48 recording is the 
 
 CachingServiceWithAOPSupport 1.0.1 (2015) fails on every .NET Core and .NET 5+ runtime (Castle.Core 3.2.2 needs System.Security.Permissions), has no known dependents, and its 1.0.0 installs nothing. Every building block has a current, netstandard2.0 version with the same API. The golden capture shows bugs where 1.0.1 runs the intercepted method and then throws ArgumentNullException (null returns, void methods), caches nothing (the ObjectCache constructor), or throws after running on an overflowing lifetime. Evidence: [../notes/2026-09-27-phase-0-findings.md](../notes/2026-09-27-phase-0-findings.md).
 
-## Decision (proposed; the maintainer rules at the plan review)
+## Decision (accepted by the maintainer on 2026-09-27)
 
 Modernize as 2.0.0. The net48 recording is the contract on every runtime. The fixes for cases where 1.0.1 threw after the work ran, or cached nothing, go into the existing names and are listed case by case as exception E4; nothing else may differ apart from runtime message suffixes (E1), Autofac's own errors (E2) and the .NET 10 failure record (E3). Cache keys stay byte-identical through a built-in JavaScriptSerializer-compatible writer.
 
