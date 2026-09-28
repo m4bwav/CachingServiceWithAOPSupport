@@ -19,3 +19,11 @@ Append-only. One line per operation: `## [YYYY-MM-DD] op | title` where op is on
 - everlast registered (mode repo, sync push); AGENTS.md, CLAUDE.md (@AGENTS.md import), .github/copilot-instructions.md.
 - Trap: `--` inside an XML comment of Capture.csproj stopped the build (MSB4025); reworded.
 ## [2026-09-27] index | rebuilt (2 entries)
+
+## [2026-09-27] add | Phase 1: plan and proposed decision
+- Phase 0 committed as 348da5d and pushed (`git push -u origin v2`).
+- Environment `nuget` created with gh: `gh api -X PUT repos/m4bwav/CachingServiceWithAOPSupport/environments/nuget` (reviewer user id 156112, custom_branch_policies true), `POST .../deployment-branch-policies name=v* type=tag`, `gh secret set NUGET_USER --env nuget --body rogersm0`; read back: required_reviewers and branch_policy rules, policy `v* tag`, secret NUGET_USER.
+- Versions for the plan (registration index, listed, published): Autofac 9.3.4 (2026-09-18), Autofac.Extras.DynamicProxy 8.1.0 (2026-08-14; 7.1.0 of 2023-06-29 needs Autofac >= 6.5.0 and Castle.Core >= 5.1.1; 8.x needs Autofac >= 9.3.x and Castle.Core >= 5.2.1), Castle.Core 5.2.1 (2025-03-09), System.Runtime.Caching 10.0.12, System.Text.Json 10.0.12, MSTest 4.4.1, NUnit 4.6.1 (5.0.0 published 2026-09-27: cooldown), NUnit3TestAdapter 6.3.0, Microsoft.NET.Test.Sdk 18.10.1.
+- ai-docs/plans/2026-09-27-modernization-and-v2-release.md (D0-D16, E1-E4); ai-docs/decisions/2026-09-27-modernize-v2-fixes-in-place.md (proposed).
+- Stop for the maintainer's plan review.
+## [2026-09-27] index | rebuilt (4 entries)
