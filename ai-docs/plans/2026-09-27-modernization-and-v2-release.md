@@ -15,7 +15,7 @@ The plan for taking CachingServiceWithAOPSupport from 1.0.1 (2015, net45, Autofa
 
 ## Status
 
-Active. Phase 2 started 2026-09-27. Rulings (2026-09-27): every recommendation D0-D16 stands ("just modernize, it can at least function as a code example"); the D16 settings are approved. Still owed by the maintainer: the Trusted Publishing policy (D13), needed before Phase 5.
+Active. At the pull-request stop (Phase 3 done) on 2026-09-27. Rulings (2026-09-27): every recommendation D0-D16 stands ("just modernize, it can at least function as a code example"); the D16 settings are approved. Still owed by the maintainer: the Trusted Publishing policy (D13), needed before Phase 5.
 
 ## Goal
 
@@ -124,10 +124,10 @@ Unchanged: the 46 lines of `tests/Golden/PublicApi-1.0.1.txt`, with Castle and A
 - [x] src/, the rest of the tests, README, CHANGELOG, SECURITY.md, AGENTS.md
 - [x] D5 floor test (Autofac 9.3.4 with DynamicProxy 7.1.0) green: the 7.1.0 floor stands; verified on net10.0 and net48 and from a fresh clone (log)
 - [x] Workflows and Dependabot, actions pinned to SHAs, actionlint, zizmor and check-workflow-shell.py clean
-- [ ] Pushed; pull request with a "For review" list
+- [x] Pushed; pull request #1 with a "For review" list (CI run 36363389674 green)
 ### Phase 3: review
-- [ ] Independent read-only review (prompts/review-subagent.md); findings fixed or answered; summary on the pull request
-- [ ] Rulesets and security settings of D16 applied (L-077). **Stop** for the pull-request review.
+- [x] Independent read-only review: 12 findings, 9 fixed, 3 answered (notes/2026-09-27-phase-3-review-findings.md); summary on the pull request; CI run 36364171385 green
+- [x] Rulesets and security settings of D16 applied (L-077): rulesets 24089709 and 24089711. **Stop** for the pull-request review.
 ### Phase 4: CI, settings, merge, cleanup
 - [ ] CI green (run id); merge after the review (read the SHA and method back); tag ruleset; nothing else to clean up (no bot pull requests, issues, webhooks)
 ### Phase 5: release rehearsal
