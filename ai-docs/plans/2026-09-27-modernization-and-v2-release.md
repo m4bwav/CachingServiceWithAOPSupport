@@ -1,7 +1,7 @@
 ---
 title: Modernization and v2 release
 kind: plan
-status: active
+status: done
 date: 2026-09-27
 verified: 2026-09-27
 stale_after: never
@@ -15,7 +15,7 @@ The plan for taking CachingServiceWithAOPSupport from 1.0.1 (2015, net45, Autofa
 
 ## Status
 
-Active. At the pull-request stop (Phase 3 done) on 2026-09-27. Rulings (2026-09-27): every recommendation D0-D16 stands ("just modernize, it can at least function as a code example"); the D16 settings are approved. Still owed by the maintainer: the Trusted Publishing policy (D13), needed before Phase 5.
+Done except the maintainer's deprecations: 2.0.0 released and verified on 2026-09-28 (UTC). Rulings (2026-09-27): every recommendation D0-D16 stands ("just modernize, it can at least function as a code example"); the D16 settings are approved. Still owed by the maintainer: the Trusted Publishing policy (D13), needed before Phase 5.
 
 ## Goal
 
@@ -129,14 +129,14 @@ Unchanged: the 46 lines of `tests/Golden/PublicApi-1.0.1.txt`, with Castle and A
 - [x] Independent read-only review: 12 findings, 9 fixed, 3 answered (notes/2026-09-27-phase-3-review-findings.md); summary on the pull request; CI run 36364171385 green
 - [x] Rulesets and security settings of D16 applied (L-077): rulesets 24089709 and 24089711. **Stop** for the pull-request review.
 ### Phase 4: CI, settings, merge, cleanup
-- [ ] CI green (run id); merge after the review (read the SHA and method back); tag ruleset; nothing else to clean up (no bot pull requests, issues, webhooks)
+- [x] CI green (run 36365018544 on master); merged by Mark as merge commit 40327ba; tag ruleset 24089711; nothing else to clean up
 ### Phase 5: release rehearsal
-- [ ] `2.0.0-beta.1` tagged after master is green; **stop** for the approval; verify-published green (run id)
+- [x] `2.0.0-beta.1` tagged on e29385b after green; approved; release run 36365583388; verify-published 36366238410 green on three OSes
 ### Phase 6: release
-- [ ] Changelog dated; `2.0.0` tagged; **stop** for the approval; verified (verify-published, GitHub Release, symbols); PackageValidationBaselineVersion set to 2.0.0
+- [x] Changelog dated; `2.0.0` tagged on 1ba1b74; approved; release run 36367259571; verify-published 36368035840 green on three OSes; GitHub Release, attestation, symbols package; PackageValidationBaselineVersion set to 2.0.0
 - [ ] The maintainer deprecates 1.0.0 and 1.0.1 on nuget.org (fields in the appendix)
 ### Phase 7: wrap-up
-- [ ] HANDOFF.md around standing work; inventory row; lessons into the skill; the kickoff's "What the run found wrong"
+- [x] HANDOFF.md around standing work; inventory row; lessons into the skill (L-078 to L-089); the kickoff's "What the run found wrong"
 
 ## Test strategy: every artifact, every runtime, and the behaviour itself
 

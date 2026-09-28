@@ -69,3 +69,14 @@ Append-only. One line per operation: `## [YYYY-MM-DD] op | title` where op is on
 - `gh attestation verify <release asset nupkg> --repo m4bwav/CachingServiceWithAOPSupport`: exit 0 and no output in this shell; with `--format json` the statement names .github/workflows/release.yml at refs/tags/v2.0.0-beta.1.
 - Flat container: 1.0.0, 1.0.1, 2.0.0-beta.1.
 - Phase 6 started: version 2.0.0, CHANGELOG heading dated 2026-09-27 (pull request release-2.0.0).
+
+## [2026-09-28] add | Phase 6: 2.0.0 released and verified
+- Pull request #4 (version 2.0.0, CHANGELOG heading dated 2026-09-27): ci run 36366846039 green, squash-merged as 1ba1b74; ci on master run 36367064751 green; golden files untouched since 348da5d.
+- Tag v2.0.0 on 1ba1b74 (the push listed the tag rule under "Bypassed rule violations", skill L-087). release run 36367259571: build and test, Windows (net48, net10.0), attest, push to nuget.org after Mark's approval, GitHub Release: all success. GitHub Release v2.0.0 (not a prerelease) with the nupkg and snupkg.
+- verify-published.yml version 2.0.0: run 36368035840 success on ubuntu-24.04, windows-latest and macos-latest.
+- `gh attestation verify` on the release asset (--format json): .github/workflows/release.yml at refs/tags/v2.0.0.
+- Registration index: 2.0.0 listed, latest stable, published 2026-09-28 (UTC), no vulnerabilities or deprecation. Published nupkg holds README.md, icon.png, lib/net10.0 and lib/netstandard2.0 (dll, xml). https://www.nuget.org/api/v2/symbolpackage/CachingServiceWithAOPSupport/2.0.0: 200, 22 598 bytes (symbols.nuget.org answers 403 to a PDB request without the SymbolChecksum header, so that URL proves nothing).
+- check-readme-images.mjs on the README inside the published nupkg: 3 images, all ok (the ci badge works now that ci.yml is on master).
+- Post-release: PackageValidationBaselineVersion 2.0.0 (local pack validation passes).
+- Owed by Mark on nuget.org: the deprecations of 1.0.0 and 1.0.1 (plan Appendix A).
+## [2026-09-27] index | rebuilt (5 entries)
