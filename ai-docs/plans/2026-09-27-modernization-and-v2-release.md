@@ -119,11 +119,11 @@ Unchanged: the 46 lines of `tests/Golden/PublicApi-1.0.1.txt`, with Castle and A
 ### Phase 1: plan
 - [x] This plan and [../decisions/2026-09-27-modernize-v2-fixes-in-place.md](../decisions/2026-09-27-modernize-v2-fixes-in-place.md). **Stop**: the maintainer rules on the table, answers the GitHub question, adds the Trusted Publishing policy.
 ### Phase 2: rewrite on branch v2
-- [ ] Remove the D12 files; add the templates; generated icon
-- [ ] Golden replay first, green on the first build apart from E1 to E4; canary after committing (L-074 `commit-before-canary`): a planted line in src/ turns it red, reverted, green (both runs logged); `git diff --exit-code 348da5d -- tests/Golden` empty
-- [ ] src/, the rest of the tests, README, CHANGELOG, SECURITY.md, AGENTS.md
-- [ ] D5 floor test (Autofac 9.3.4 with DynamicProxy 7.1.0); verified on net10.0 and net48 and from a fresh clone (log)
-- [ ] Workflows and Dependabot, actions pinned to SHAs, actionlint and check-workflow-shell.py clean
+- [x] Remove the D12 files; add the templates; generated icon
+- [x] Golden replay first (first build: 2 differences, a harness fix and TimeSpan's shape on .NET, see the log), then green apart from E1 to E4; canary after committing (L-074 `commit-before-canary`): a planted line in src/ turns it red, reverted, green (both runs logged); `git diff --exit-code 348da5d -- tests/Golden` empty
+- [x] src/, the rest of the tests, README, CHANGELOG, SECURITY.md, AGENTS.md
+- [x] D5 floor test (Autofac 9.3.4 with DynamicProxy 7.1.0) green: the 7.1.0 floor stands; verified on net10.0 and net48 and from a fresh clone (log)
+- [x] Workflows and Dependabot, actions pinned to SHAs, actionlint, zizmor and check-workflow-shell.py clean
 - [ ] Pushed; pull request with a "For review" list
 ### Phase 3: review
 - [ ] Independent read-only review (prompts/review-subagent.md); findings fixed or answered; summary on the pull request
