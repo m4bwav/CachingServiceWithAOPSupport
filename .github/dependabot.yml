@@ -1,0 +1,37 @@
+# Weekly update pull requests. Merge when CI is green; read the release notes before merging a major.
+# The actions are pinned to commit SHAs with the version in a comment; Dependabot updates both.
+# The three-day cooldown keeps brand-new releases out until they have had time to be pulled if bad.
+# Autofac, Autofac.Extras.DynamicProxy and Castle.Core in the library are the package's declared floors (plan D5), not
+# versions to chase: ignored here (see AGENTS.md). An advisory on a floor version still shows as a Dependabot alert and
+# fails ci.yml's audit step; ci.yml's consumer test runs the latest versions against the packed package.
+version: 2
+updates:
+  - package-ecosystem: nuget
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 3
+    ignore:
+      - dependency-name: Autofac
+      - dependency-name: Autofac.Extras.DynamicProxy
+      - dependency-name: Castle.Core
+    groups:
+      test-packages:
+        patterns:
+          - "NUnit*"
+          - "Microsoft.NET.Test.Sdk"
+  # Updates the SDK version in global.json.
+  - package-ecosystem: dotnet-sdk
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 3

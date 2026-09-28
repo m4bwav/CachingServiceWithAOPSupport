@@ -52,6 +52,10 @@ dotnet_diagnostic.CA1707.severity = none
 # Tests use literal arrays in assertions and hold console writers per test; neither matters there.
 dotnet_diagnostic.CA1861.severity = none
 dotnet_diagnostic.CA1001.severity = none
+# Fixtures expose call counters as fields; the test code also compiles for net48, which has no span overloads.
+dotnet_diagnostic.CA1051.severity = none
+dotnet_diagnostic.CA1845.severity = none
+dotnet_diagnostic.CA1865.severity = none
 
 # The capture and API listing programs are frozen as they ran against 1.0.1 (Phase 0); the golden test compiles them unchanged.
 [tests/Golden/**.cs]

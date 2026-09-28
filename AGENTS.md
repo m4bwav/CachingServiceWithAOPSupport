@@ -4,30 +4,45 @@ Rules for any AI agent (Claude Code, Copilot, Cursor, Codex) working in this rep
 
 ## What this is
 
-The NuGet package `CachingServiceWithAOPSupport` (assembly and namespace `CachingServiceWithAOP`): caches method results through a `[Cache]` attribute, Castle DynamicProxy interface interceptors wired by Autofac, and `System.Runtime.Caching.MemoryCache`. 1.0.1 (2015-04-18, net45, Autofac 3, Castle.Core 3) is the published version. It is being modernized with the package-modernize skill on branch `v2`; the plan is in `ai-docs/plans/`, and `ai-docs/HANDOFF.md` says where the run stands. Start there.
+The NuGet package `CachingServiceWithAOPSupport` (assembly and namespace `CachingServiceWithAOP`): method result caching for Autofac through a `[Cache]` attribute, Castle DynamicProxy interface interceptors and System.Runtime.Caching. Library in `src/CachingServiceWithAOP/`, tests in `tests/`. 1.0.1 (2015-04-18, net45, Autofac 3) is the published version until 2.0.0 ships. The plan is `ai-docs/plans/2026-09-27-modernization-and-v2-release.md`; start with `ai-docs/HANDOFF.md`.
 
 ## Rules
 
-- **The recording is the contract.** `tests/Golden/1.0.1.net48-windows.json` holds what the published 1.0.1 answered on .NET Framework 4.8 (158 cases), `tests/Golden/1.0.1.net10.0-windows.json` what it answered on .NET 10 (there every proxy fails: Castle.Core 3.2.2 needs `System.Security.Permissions`), and `tests/Golden/PublicApi-1.0.1.txt` its public API with parameter names. They were captured from the published package by the programs in `tests/Golden/Capture` and `tests/Golden/ApiList`. Never edit or regenerate them, and never change those programs: when a golden test fails, the fix goes in the library, or the difference becomes a named exception the maintainer ruled on in the plan.
-- **Nothing reaches nuget.org without the maintainer.** No API key is stored anywhere; releases go through Trusted Publishing from a job gated by the `nuget` environment, which the maintainer approves. Never push a package from a machine.
-- **Research beats recall.** SDK, package and action versions change; re-verify any version older than three months and keep a three-day cooldown on newly published versions.
+- **The recording is the contract.** `tests/Golden/1.0.1.net48-windows.json` holds what the published 1.0.1 answered on .NET Framework 4.8 (158 cases). `tests/CachingServiceWithAOP.GoldenTests` compiles the capture's `Cases.cs`, `Fixtures.cs` and `Json.cs` unchanged and compares every answer on every runtime; the only allowed differences are the named exceptions E1, E2 and E4 in `GoldenTests.cs`, each ruled on in the plan. `tests/Golden/1.0.1.net10.0-windows.json` is only the record of 1.0.1 failing on .NET 10 (E3). Never edit or regenerate anything under `tests/Golden`: when the golden test fails, the fix goes in `src/`. A fix that would change another 1.0.1 answer goes under a new name, with a decision entry and a changelog line.
+- **Cache keys are 1.0.1's, byte for byte.** `ScriptJson` reproduces .NET Framework's JavaScriptSerializer (escaping, `\/Date(ms)\/`, enums as numbers, the Framework's round-trip doubles, fields then properties, TimeSpan in the Framework's shape). Keep it that way; the golden key cases prove it.
+- **The public API is 1.0.1's.** `tests/CachingServiceWithAOP.Tests/PublicApi-1.0.1.txt` (a copy of the frozen listing) must hold line for line, parameter names included; no public type may be added without a plan decision.
+- **Dependency floors, not latest.** The library references Autofac.Extras.DynamicProxy 7.1.0, Autofac 6.5.0 and Castle.Core 5.1.1 on purpose (plan D5: Autofac 6.5 to 9 users). Dependabot ignores them; `tests/consumers/run.sh` proves the floor, the latest and the mixed set against the packed package in CI. Raise a floor only for a named reason (an advisory, an API the code needs).
+- **Targets.** The library multi-targets `netstandard2.0` and `net10.0`: no net5+ APIs without an `#if` or a polyfill. It is not trim or AOT compatible (DynamicProxy emits code at run time).
+- **Tests cover every artifact.** Golden (its own project, so its process holds no other test), unit and public-API tests on net10.0 and net48, package contents and dependencies at pack time in CI, fresh consumers of the packed package, `verify-published.yml` after a release. A behaviour change lands with its test. Tests never touch the network.
+- **Nothing reaches nuget.org without the maintainer.** No API key is stored anywhere; `release.yml` publishes through Trusted Publishing from a job that waits at the `nuget` environment for the maintainer's approval. Never push a package from a machine.
+- **Releases follow one ritual.** Update `CHANGELOG.md` (a release heading carries its date), set `<Version>` in `src/CachingServiceWithAOP/CachingServiceWithAOP.csproj`, merge, wait for `ci` to be green on `master`, then tag `v<version>` and push the tag. `release.yml` checks the tag against the version and master, tests on Linux and Windows, packs, attests, waits for the approval, pushes and creates the GitHub Release. Then run `verify-published` with the version. Tag only after green: tags are not force-pushed here.
+- **Dependencies.** Lock files are committed (`RestorePackagesWithLockFile`); run plain `dotnet restore` after changing a PackageReference and commit the lock file; CI restores with `--locked-mode`. Keep a three-day cooldown on newly published versions. Actions are pinned to commit SHAs.
+- **Research beats recall.** SDK, package and action versions change; re-verify any version older than three months.
 - **Document for handoff.** Anything learned, decided or built goes into `ai-docs/` before you finish; rewrite `ai-docs/HANDOFF.md` when work is left unfinished.
 - **No AI attribution anywhere.** Commits are the maintainer's (m4bwav).
-- **Line endings.** New files are LF; count byte 13 with node on Windows before committing.
+- **Line endings.** Files are LF (`.gitattributes` and `.editorconfig`), so `dotnet format` agrees on every OS; count byte 13 with node on Windows before committing new files.
 
-## Commands (Phase 0 state: the 2015 projects do not build on the .NET 10 SDK)
+## Commands
 
 ```
-dotnet run --project tests/Golden/Capture/Capture.csproj -c Release -f net48 -- <scratch>/out.json   # re-check only; never overwrite the committed recording
-dotnet run --project tests/Golden/ApiList/ApiList.csproj -- <scratch>/api.txt
+dotnet restore --locked-mode
+dotnet format --verify-no-changes
+dotnet build -c Release
+dotnet test -c Release                              # net10.0 and net48 (net48 executes only on Windows)
+dotnet restore -p:AuditPipeline=true --force        # fails on any NuGetAudit finding, as CI does
+dotnet pack src/CachingServiceWithAOP -c Release -o artifacts
+tests/consumers/run.sh 2.0.0 artifacts              # fresh consumers of the packed package (Git Bash on Windows)
 ```
 
 ## Layout and traps
 
-- `CachingServiceWithAOP/`: the 2015 library (non-SDK csproj, `packages.config`, a `.nuspec`, and both old nupkgs committed). `CachingServiceWithAOP.Tests/`: the 2015 MSTest project; it passes 13 of 13 against the published 1.0.1 on net48 when compiled in an SDK-style project (see `ai-docs/log.md`).
-- The capture and API listing projects have empty `Directory.Build.*` and `Directory.Packages.props` beside them so later repository props cannot change what they record.
-- Cache keys in the recording start with the fixture types' full names (`GoldenCapture.Fixtures.*`); the fixture namespace and type names are part of the recording.
+- `src/CachingServiceWithAOP/`: the library. `CachingServices/MemoryCacheService.cs` (store, per-key locks, Task eviction), `CachingServices/IKeyService.cs` (keys), `CachingServices/ScriptJson.cs` (the JavaScriptSerializer-compatible writer), `AOPCachingInterceptor.cs`, `AutofacCachingModule.cs`, `Extensions/`.
+- `tests/Golden/`: frozen since commit 348da5d (the recordings, `Capture/` and `ApiList/`, which ran against the published 1.0.1). They have empty `Directory.Build.*` files beside them so repository props cannot change them. `.editorconfig` marks them generated code.
+- Building a cache key reads every public getter of every argument, as 1.0.1 did: a test that passes a `TaskCompletionSource` or a pending `Task` as an argument hangs on `Task.Result`.
+- A locked-mode lock file for a multi-OS matrix must not depend on anything the SDK infers per OS: `Microsoft.NETFramework.ReferenceAssemblies` is referenced explicitly with `PrivateAssets="all"`, and the net48 test projects pin `RuntimeIdentifier win-x86` with `SelfContained false`.
+- The publish job has no checkout, so it pins `dotnet-version` instead of reading `global.json`.
 - An XML comment in a project file must not contain two hyphens in a row (MSB4025).
+- After 2.0.0 is released, set `PackageValidationBaselineVersion` to 2.0.0 in the csproj.
 
 ## everlast (session knowledge, load on demand)
 
