@@ -1,5 +1,7 @@
 # CachingServiceWithAOPSupport
 
+![A squirrel with acorns in a tree hollow above a small chest of drawers, autumn leaves falling](https://raw.githubusercontent.com/m4bwav/CachingServiceWithAOPSupport/master/.github/images/banner.jpg)
+
 [![NuGet](https://img.shields.io/nuget/v/CachingServiceWithAOPSupport)](https://www.nuget.org/packages/CachingServiceWithAOPSupport)
 [![ci](https://github.com/m4bwav/CachingServiceWithAOPSupport/actions/workflows/ci.yml/badge.svg)](https://github.com/m4bwav/CachingServiceWithAOPSupport/actions/workflows/ci.yml)
 [![Downloads](https://img.shields.io/nuget/dt/CachingServiceWithAOPSupport)](https://www.nuget.org/packages/CachingServiceWithAOPSupport)
