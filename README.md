@@ -89,6 +89,10 @@ var report = cache.Get("report", () => BuildReport()); // BuildReport runs once 
 
 Not a distributed cache, not a replacement for `IMemoryCache` or HybridCache in new code that does not use Autofac, and not a way to cache class members that are not called through an interface. It makes no network or file access. It stores whatever your methods return, in process memory, keyed by argument values; do not cache results that must not outlive a user's session in a shared process.
 
+## Package page
+
+- NuGet: [CachingServiceWithAOPSupport](https://www.nuget.org/packages/CachingServiceWithAOPSupport)
+
 ## Licence
 
 MIT. Copyright (c) 2015-2026 Mark Rogers.
