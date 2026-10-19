@@ -43,11 +43,11 @@
       },
       "System.Runtime.Caching": {
         "type": "Direct",
-        "requested": "[10.0.12, )",
-        "resolved": "10.0.12",
-        "contentHash": "r2WLPGaLcR/IS7rFs1GjRoNM4qVPsQDu8HbWZBaN6oXNTeXYS5b/0mguQG6nrZfUtUXJ+QTYjEqrB8b4I2vhBg==",
+        "requested": "[10.0.13, )",
+        "resolved": "10.0.13",
+        "contentHash": "e7PWKWvYFZkUy/8+dZr+R4D1ZQI5Eb3foxaxuhUn7oHsLVQWosHwQ06M87WqpQ3ZdeHIhKUS53D0VRsHkJ1Omw==",
         "dependencies": {
-          "System.Configuration.ConfigurationManager": "10.0.12"
+          "System.Configuration.ConfigurationManager": "10.0.13"
         }
       },
       "Microsoft.Bcl.AsyncInterfaces": {
@@ -70,10 +70,10 @@
       },
       "System.Configuration.ConfigurationManager": {
         "type": "Transitive",
-        "resolved": "10.0.12",
-        "contentHash": "6KP/CGB9YymJuhNorm5FS/urQJB40h6t4DIiXN8J1VT/jINZHNgjzcdWRHGYuXGLwO7SCOq5K/OMAnh6oRbeLg==",
+        "resolved": "10.0.13",
+        "contentHash": "BkkGt1IDGMaNkSWJR+hEN3V/UMvyoYKW0rG7rlhKQwS2Ghn+9dt98aV7syIMK+ChumTk+IbDF4k0QXqVs9Zudg==",
         "dependencies": {
-          "System.Security.Cryptography.ProtectedData": "10.0.12"
+          "System.Security.Cryptography.ProtectedData": "10.0.13"
         }
       },
       "System.Diagnostics.DiagnosticSource": {
@@ -127,8 +127,8 @@
       },
       "System.Security.Cryptography.ProtectedData": {
         "type": "Transitive",
-        "resolved": "10.0.12",
-        "contentHash": "wO0W8VDMeRJZakRySOmemAnrBZMwEFRlbfBtATxUiLf2I3IhSRnCp1Vt157NWptdE4IJ7eftd5n8q9LtaKHFTQ==",
+        "resolved": "10.0.13",
+        "contentHash": "aUSmC6cPjFLSE0rDTsmkR3wvUOnscqewebOaaELEToh12sNmoltZqT3f0C81mJ1zhxKjWco25soHTvYwsXCsUw==",
         "dependencies": {
           "System.Memory": "4.6.3"
         }
@@ -145,61 +145,6 @@
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "4.5.2"
         }
-      }
-    },
-    "net10.0": {
-      "Autofac": {
-        "type": "Direct",
-        "requested": "[6.5.0, )",
-        "resolved": "6.5.0",
-        "contentHash": "sm6HWWBDEoTPGXeyOchMygJ/7L89VxmVH72BFxakG88J34AVjA8RMi5jbv3PdpUtXI/d9ZLKOaxCmOSIo2K4aA=="
-      },
-      "Autofac.Extras.DynamicProxy": {
-        "type": "Direct",
-        "requested": "[7.1.0, )",
-        "resolved": "7.1.0",
-        "contentHash": "Da6Szv7A1LK/cTdeoyqS45zb/BC5vep8+86f6C1oh2UhZaYtiijlNfLWamp3lxe0uUQ33kFe1dDCjsvfwJWzLg==",
-        "dependencies": {
-          "Autofac": "6.5.0",
-          "Castle.Core": "5.1.1"
-        }
-      },
-      "Castle.Core": {
-        "type": "Direct",
-        "requested": "[5.1.1, )",
-        "resolved": "5.1.1",
-        "contentHash": "rpYtIczkzGpf+EkZgDr9CClTdemhsrwA/W5hMoPjLkRFnXzH44zDLoovXeKtmxb1ykXK9aJVODSpiJml8CTw2g==",
-        "dependencies": {
-          "System.Diagnostics.EventLog": "6.0.0"
-        }
-      },
-      "System.Runtime.Caching": {
-        "type": "Direct",
-        "requested": "[10.0.12, )",
-        "resolved": "10.0.12",
-        "contentHash": "r2WLPGaLcR/IS7rFs1GjRoNM4qVPsQDu8HbWZBaN6oXNTeXYS5b/0mguQG6nrZfUtUXJ+QTYjEqrB8b4I2vhBg==",
-        "dependencies": {
-          "System.Configuration.ConfigurationManager": "10.0.12"
-        }
-      },
-      "System.Configuration.ConfigurationManager": {
-        "type": "Transitive",
-        "resolved": "10.0.12",
-        "contentHash": "6KP/CGB9YymJuhNorm5FS/urQJB40h6t4DIiXN8J1VT/jINZHNgjzcdWRHGYuXGLwO7SCOq5K/OMAnh6oRbeLg==",
-        "dependencies": {
-          "System.Diagnostics.EventLog": "10.0.12",
-          "System.Security.Cryptography.ProtectedData": "10.0.12"
-        }
-      },
-      "System.Diagnostics.EventLog": {
-        "type": "Transitive",
-        "resolved": "10.0.12",
-        "contentHash": "sOZM+VyRj1pg/ItlHsvrSbjws6oGqZveTzTNBGZ9ziwRDyKsOF3ub6vhvOdxotCIqtlnyHAIwP5sLNvgiZC+pQ=="
-      },
-      "System.Security.Cryptography.ProtectedData": {
-        "type": "Transitive",
-        "resolved": "10.0.12",
-        "contentHash": "wO0W8VDMeRJZakRySOmemAnrBZMwEFRlbfBtATxUiLf2I3IhSRnCp1Vt157NWptdE4IJ7eftd5n8q9LtaKHFTQ=="
       }
     }
   }
